@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de CV</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        form {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            background: #f4f4f4;
+            border-radius: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        #cv-preview {
+            width: 50%;
+            margin: auto;
+            text-align: left;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Générateur de CV</h1>
+
+    <form id="cvForm">
+        <label>Nom :</label>
+        <input type="text" id="nom" required>
+
+        <label>Prénom :</label>
+        <input type="text" id="prenom" required>
+
+        <label>Email :</label>
+        <input type="email" id="email" required>
+
+        <label>Compétences :</label>
+        <textarea id="competences" required></textarea>
+
+        <label>Expérience :</label>
+        <textarea id="experience" required></textarea>
+
+        <button type="button" onclick="generateCV()">Aperçu du CV</button>
+        <button type="button" onclick="downloadPDF()">Télécharger en PDF</button>
+    </form>
+
+    <div id="cv-preview">
+        <h2 id="cv-nom"></h2>
+        <p id="cv-email"></p>
+        <h3>Compétences</h3>
+        <p id="cv-competences"></p>
+        <h3>Expérience</h3>
+        <p id="cv-experience"></p>
+    </div>
+
+    <script>
+        function generateCV() {
+            document.getElementById("cv-nom").innerText = document.getElementById("prenom").value + " " + document.getElementById("nom").value;
+            document.getElementById("cv-email").innerText = "Email : " + document.getElementById("email").value;
+            document.getElementById("cv-competences").innerText = document.getElementById("competences").value;
+            document.getElementById("cv-experience").innerText = document.getElementById("experience").value;
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(20);
+            doc.text(document.getElementById("prenom").value + " " + document.getElementById("nom").value, 10, 20);
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(12);
+            doc.text("Email : " + document.getElementById("email").value, 10, 30);
+
+            doc.setFont("helvetica", "bold");
+            doc.text("Compétences", 10, 50);
+            doc.setFont("helvetica", "normal");
+            doc.text(document.getElementById("competences").value, 10, 60, { maxWidth: 180 });
+
+            doc.setFont("helvetica", "bold");
+            doc.text("Expérience", 10, 90);
+            doc.setFont("helvetica", "normal");
+            doc.text(document.getElementById("experience").value, 10, 100, { maxWidth: 180 });
+
+            doc.save("CV_" + document.getElementById("nom").value + ".pdf");
+        }
+    </script>
+
+</body>
+</html>
