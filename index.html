@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur de CV</title>
+    <title>Générateur de CV Automatique</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         body {
@@ -18,7 +18,7 @@
             background: #f4f4f4;
             border-radius: 10px;
         }
-        input, textarea {
+        input, select {
             width: 100%;
             margin: 10px 0;
             padding: 10px;
@@ -40,11 +40,15 @@
             margin-top: 20px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
+        img {
+            max-width: 100px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Générateur de CV</h1>
+    <h1>Générateur de CV Automatique</h1>
 
     <form id="cvForm">
         <label>Nom :</label>
@@ -56,17 +60,32 @@
         <label>Email :</label>
         <input type="email" id="email" required>
 
-        <label>Compétences :</label>
-        <textarea id="competences" required></textarea>
+        <label>Photo de profil :</label>
+        <input type="file" id="photo" accept="image/*">
 
-        <label>Expérience :</label>
-        <textarea id="experience" required></textarea>
+        <label>Modèle de CV :</label>
+        <select id="modele">
+            <option value="classique">Classique</option>
+            <option value="moderne">Moderne</option>
+            <option value="minimaliste">Minimaliste</option>
+        </select>
 
-        <button type="button" onclick="generateCV()">Aperçu du CV</button>
+        <label>Couleur principale :</label>
+        <input type="color" id="couleur" value="#007BFF">
+
+        <label>Police :</label>
+        <select id="police">
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+        </select>
+
+        <button type="button" onclick="generateCV()">Générer le CV</button>
         <button type="button" onclick="downloadPDF()">Télécharger en PDF</button>
     </form>
 
     <div id="cv-preview">
+        <img id="cv-photo" src="" alt="Photo de profil">
         <h2 id="cv-nom"></h2>
         <p id="cv-email"></p>
         <h3>Compétences</h3>
@@ -77,35 +96,62 @@
 
     <script>
         function generateCV() {
-            document.getElementById("cv-nom").innerText = document.getElementById("prenom").value + " " + document.getElementById("nom").value;
-            document.getElementById("cv-email").innerText = "Email : " + document.getElementById("email").value;
-            document.getElementById("cv-competences").innerText = document.getElementById("competences").value;
-            document.getElementById("cv-experience").innerText = document.getElementById("experience").value;
+            let nom = document.getElementById("nom").value;
+            let prenom = document.getElementById("prenom").value;
+            let email = document.getElementById("email").value;
+            let couleur = document.getElementById("couleur").value;
+            let police = document.getElementById("police").value;
+
+            document.getElementById("cv-nom").innerText = prenom + " " + nom;
+            document.getElementById("cv-email").innerText = "Email : " + email;
+            document.getElementById("cv-preview").style.fontFamily = police;
+            document.getElementById("cv-preview").style.borderColor = couleur;
+
+            // Génération automatique des compétences et expériences
+            document.getElementById("cv-competences").innerText = "• Leadership • Travail d'équipe • Communication • Résolution de problèmes";
+            document.getElementById("cv-experience").innerText = "• Stage en entreprise • Projet universitaire • Expérience en freelance";
+
+            // Gestion de la photo
+            let photoInput = document.getElementById("photo").files[0];
+            if (photoInput) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("cv-photo").src = e.target.result;
+                };
+                reader.readAsDataURL(photoInput);
+            }
         }
 
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
-            doc.setFont("helvetica", "bold");
+
+            let nom = document.getElementById("nom").value;
+            let prenom = document.getElementById("prenom").value;
+            let email = document.getElementById("email").value;
+            let couleur = document.getElementById("couleur").value;
+            let police = document.getElementById("police").value;
+
+            doc.setFont(police, "bold");
             doc.setFontSize(20);
-            doc.text(document.getElementById("prenom").value + " " + document.getElementById("nom").value, 10, 20);
+            doc.setTextColor(0, 0, 0);
+            doc.text(prenom + " " + nom, 10, 20);
 
-            doc.setFont("helvetica", "normal");
+            doc.setFont(police, "normal");
             doc.setFontSize(12);
-            doc.text("Email : " + document.getElementById("email").value, 10, 30);
+            doc.text("Email : " + email, 10, 30);
 
-            doc.setFont("helvetica", "bold");
+            doc.setFont(police, "bold");
             doc.text("Compétences", 10, 50);
-            doc.setFont("helvetica", "normal");
-            doc.text(document.getElementById("competences").value, 10, 60, { maxWidth: 180 });
+            doc.setFont(police, "normal");
+            doc.text("• Leadership • Travail d'équipe • Communication • Résolution de problèmes", 10, 60, { maxWidth: 180 });
 
-            doc.setFont("helvetica", "bold");
-            doc.text("Expérience", 10, 90);
-            doc.setFont("helvetica", "normal");
-            doc.text(document.getElementById("experience").value, 10, 100, { maxWidth: 180 });
+            doc.setFont(police, "bold");
+            doc.text("Expérience", 10, 80);
+            doc.setFont(police, "normal");
+            doc.text("• Stage en entreprise • Projet universitaire • Expérience en freelance", 10, 90, { maxWidth: 180 });
 
-            doc.save("CV_" + document.getElementById("nom").value + ".pdf");
+            doc.save("CV_" + nom + ".pdf");
         }
     </script>
 
