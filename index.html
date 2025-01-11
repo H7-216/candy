@@ -18,7 +18,7 @@
             background: #f4f4f4;
             border-radius: 10px;
         }
-        input, select {
+        input, button {
             width: 100%;
             margin: 10px 0;
             padding: 10px;
@@ -26,7 +26,6 @@
         button {
             background: #007BFF;
             color: white;
-            padding: 10px;
             border: none;
             cursor: pointer;
         }
@@ -40,9 +39,14 @@
             margin-top: 20px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        img {
-            max-width: 100px;
-            border-radius: 50%;
+        h2, h3 {
+            color: #007BFF;
+        }
+        textarea {
+            width: 100%;
+            border: none;
+            resize: none;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -60,98 +64,104 @@
         <label>Email :</label>
         <input type="email" id="email" required>
 
-        <label>Photo de profil :</label>
-        <input type="file" id="photo" accept="image/*">
-
-        <label>Modèle de CV :</label>
-        <select id="modele">
-            <option value="classique">Classique</option>
-            <option value="moderne">Moderne</option>
-            <option value="minimaliste">Minimaliste</option>
-        </select>
-
-        <label>Couleur principale :</label>
-        <input type="color" id="couleur" value="#007BFF">
-
-        <label>Police :</label>
-        <select id="police">
-            <option value="Arial">Arial</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Courier New">Courier New</option>
-        </select>
-
         <button type="button" onclick="generateCV()">Générer le CV</button>
         <button type="button" onclick="downloadPDF()">Télécharger en PDF</button>
     </form>
 
     <div id="cv-preview">
-        <img id="cv-photo" src="" alt="Photo de profil">
-        <h2 id="cv-nom"></h2>
-        <p id="cv-email"></p>
+        <h2><textarea id="cv-nom" rows="1"></textarea></h2>
+        <p>Email : <textarea id="cv-email" rows="1"></textarea></p>
+        <h3>Résumé</h3>
+        <textarea id="cv-resume" rows="3"></textarea>
         <h3>Compétences</h3>
-        <p id="cv-competences"></p>
+        <textarea id="cv-competences" rows="3"></textarea>
         <h3>Expérience</h3>
-        <p id="cv-experience"></p>
+        <textarea id="cv-experience" rows="4"></textarea>
+        <h3>Formation</h3>
+        <textarea id="cv-formation" rows="2"></textarea>
     </div>
 
     <script>
+        function getRandomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
         function generateCV() {
             let nom = document.getElementById("nom").value;
             let prenom = document.getElementById("prenom").value;
             let email = document.getElementById("email").value;
-            let couleur = document.getElementById("couleur").value;
-            let police = document.getElementById("police").value;
 
-            document.getElementById("cv-nom").innerText = prenom + " " + nom;
-            document.getElementById("cv-email").innerText = "Email : " + email;
-            document.getElementById("cv-preview").style.fontFamily = police;
-            document.getElementById("cv-preview").style.borderColor = couleur;
-
-            // Génération automatique des compétences et expériences
-            document.getElementById("cv-competences").innerText = "• Leadership • Travail d'équipe • Communication • Résolution de problèmes";
-            document.getElementById("cv-experience").innerText = "• Stage en entreprise • Projet universitaire • Expérience en freelance";
-
-            // Gestion de la photo
-            let photoInput = document.getElementById("photo").files[0];
-            if (photoInput) {
-                let reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById("cv-photo").src = e.target.result;
-                };
-                reader.readAsDataURL(photoInput);
+            if (!nom || !prenom || !email) {
+                alert("Remplis ton Nom, Prénom et Email !");
+                return;
             }
+
+            document.getElementById("cv-nom").value = prenom + " " + nom;
+            document.getElementById("cv-email").value = email;
+
+            // Génération aléatoire de données crédibles
+            let resumes = [
+                "Passionné par l'innovation et le développement, je suis toujours à la recherche de nouveaux défis.",
+                "Professionnel dynamique et motivé avec une solide expérience en gestion de projets.",
+                "Créatif et rigoureux, je cherche à mettre mes compétences au service d’une entreprise ambitieuse."
+            ];
+            document.getElementById("cv-resume").value = getRandomElement(resumes);
+
+            let competences = [
+                "Leadership, Gestion du temps, Travail d'équipe",
+                "Développement Web (HTML, CSS, JavaScript), Bases de données SQL",
+                "Marketing Digital, Référencement SEO, Analyse de données"
+            ];
+            document.getElementById("cv-competences").value = getRandomElement(competences);
+
+            let experiences = [
+                "2023 - Développeur Web chez TechCorp\n2022 - Stage en communication chez MediaPlus",
+                "2024 - Chef de projet chez InnovateX\n2023 - Analyste de données chez DataSolutions",
+                "2022 - Graphiste chez CreativeDesign\n2021 - Assistant Marketing chez MarketNow"
+            ];
+            document.getElementById("cv-experience").value = getRandomElement(experiences);
+
+            let formations = [
+                "Master en Informatique - Université ParisTech",
+                "Licence en Gestion d'Entreprise - HEC",
+                "BTS Communication - École Supérieure de Commerce"
+            ];
+            document.getElementById("cv-formation").value = getRandomElement(formations);
         }
 
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            let nom = document.getElementById("nom").value;
-            let prenom = document.getElementById("prenom").value;
-            let email = document.getElementById("email").value;
-            let couleur = document.getElementById("couleur").value;
-            let police = document.getElementById("police").value;
-
-            doc.setFont(police, "bold");
+            doc.setFont("helvetica", "bold");
             doc.setFontSize(20);
-            doc.setTextColor(0, 0, 0);
-            doc.text(prenom + " " + nom, 10, 20);
+            doc.text(document.getElementById("cv-nom").value, 10, 20);
 
-            doc.setFont(police, "normal");
+            doc.setFont("helvetica", "normal");
             doc.setFontSize(12);
-            doc.text("Email : " + email, 10, 30);
+            doc.text("Email : " + document.getElementById("cv-email").value, 10, 30);
 
-            doc.setFont(police, "bold");
-            doc.text("Compétences", 10, 50);
-            doc.setFont(police, "normal");
-            doc.text("• Leadership • Travail d'équipe • Communication • Résolution de problèmes", 10, 60, { maxWidth: 180 });
+            doc.setFont("helvetica", "bold");
+            doc.text("Résumé", 10, 50);
+            doc.setFont("helvetica", "normal");
+            doc.text(document.getElementById("cv-resume").value, 10, 60, { maxWidth: 180 });
 
-            doc.setFont(police, "bold");
-            doc.text("Expérience", 10, 80);
-            doc.setFont(police, "normal");
-            doc.text("• Stage en entreprise • Projet universitaire • Expérience en freelance", 10, 90, { maxWidth: 180 });
+            doc.setFont("helvetica", "bold");
+            doc.text("Compétences", 10, 80);
+            doc.setFont("helvetica", "normal");
+            doc.text(document.getElementById("cv-competences").value, 10, 90, { maxWidth: 180 });
 
-            doc.save("CV_" + nom + ".pdf");
+            doc.setFont("helvetica", "bold");
+            doc.text("Expérience", 10, 110);
+            doc.setFont("helvetica", "normal");
+            doc.text(document.getElementById("cv-experience").value, 10, 120, { maxWidth: 180 });
+
+            doc.setFont("helvetica", "bold");
+            doc.text("Formation", 10, 140);
+            doc.setFont("helvetica", "normal");
+            doc.text(document.getElementById("cv-formation").value, 10, 150, { maxWidth: 180 });
+
+            doc.save("CV_" + document.getElementById("nom").value + ".pdf");
         }
     </script>
 
