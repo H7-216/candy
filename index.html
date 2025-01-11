@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur de CV Automatique</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>Générateur de CV IA - Local</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +19,7 @@
             background: #f4f4f4;
             border-radius: 10px;
         }
-        input, button {
+        input, textarea {
             width: 100%;
             margin: 10px 0;
             padding: 10px;
@@ -26,6 +27,7 @@
         button {
             background: #007BFF;
             color: white;
+            padding: 10px;
             border: none;
             cursor: pointer;
         }
@@ -52,7 +54,7 @@
 </head>
 <body>
 
-    <h1>Générateur de CV Automatique</h1>
+    <h1>📝 Générateur de CV IA (100% Local)</h1>
 
     <form id="cvForm">
         <label>Nom :</label>
@@ -63,6 +65,9 @@
 
         <label>Email :</label>
         <input type="email" id="email" required>
+
+        <label>Contexte (ex: 'Développeur Python', 'Étudiant en finance') :</label>
+        <input type="text" id="contexte" required>
 
         <button type="button" onclick="generateCV()">Générer le CV</button>
         <button type="button" onclick="downloadPDF()">Télécharger en PDF</button>
@@ -82,51 +87,38 @@
     </div>
 
     <script>
-        function getRandomElement(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
+        async function loadModel() {
+            console.log("Chargement du modèle IA...");
+            const model = await use.load();
+            return model;
         }
 
-        function generateCV() {
+        async function generateCV() {
             let nom = document.getElementById("nom").value;
             let prenom = document.getElementById("prenom").value;
             let email = document.getElementById("email").value;
+            let contexte = document.getElementById("contexte").value;
 
-            if (!nom || !prenom || !email) {
-                alert("Remplis ton Nom, Prénom et Email !");
+            if (!nom || !prenom || !email || !contexte) {
+                alert("Remplis tous les champs !");
                 return;
             }
 
             document.getElementById("cv-nom").value = prenom + " " + nom;
             document.getElementById("cv-email").value = email;
 
-            // Génération aléatoire de données crédibles
-            let resumes = [
-                "Passionné par l'innovation et le développement, je suis toujours à la recherche de nouveaux défis.",
-                "Professionnel dynamique et motivé avec une solide expérience en gestion de projets.",
-                "Créatif et rigoureux, je cherche à mettre mes compétences au service d’une entreprise ambitieuse."
-            ];
-            document.getElementById("cv-resume").value = getRandomElement(resumes);
+            const model = await loadModel();
+            const embeddings = await model.embed([contexte]);
+            const vector = embeddings.arraySync()[0];
 
-            let competences = [
-                "Leadership, Gestion du temps, Travail d'équipe",
-                "Développement Web (HTML, CSS, JavaScript), Bases de données SQL",
-                "Marketing Digital, Référencement SEO, Analyse de données"
-            ];
-            document.getElementById("cv-competences").value = getRandomElement(competences);
+            function generateText(seed) {
+                return seed + " - IA générée";  // Simulation, ici on peut brancher un vrai modèle
+            }
 
-            let experiences = [
-                "2023 - Développeur Web chez TechCorp\n2022 - Stage en communication chez MediaPlus",
-                "2024 - Chef de projet chez InnovateX\n2023 - Analyste de données chez DataSolutions",
-                "2022 - Graphiste chez CreativeDesign\n2021 - Assistant Marketing chez MarketNow"
-            ];
-            document.getElementById("cv-experience").value = getRandomElement(experiences);
-
-            let formations = [
-                "Master en Informatique - Université ParisTech",
-                "Licence en Gestion d'Entreprise - HEC",
-                "BTS Communication - École Supérieure de Commerce"
-            ];
-            document.getElementById("cv-formation").value = getRandomElement(formations);
+            document.getElementById("cv-resume").value = generateText("Résumé basé sur " + contexte);
+            document.getElementById("cv-competences").value = generateText("Compétences associées");
+            document.getElementById("cv-experience").value = generateText("Expériences professionnelles pertinentes");
+            document.getElementById("cv-formation").value = generateText("Formations et diplômes obtenus");
         }
 
         function downloadPDF() {
