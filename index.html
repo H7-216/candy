@@ -3,159 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur de CV IA - Local</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder"></script>
+    <title>Générateur de Carte d'Identité</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            text-align: center;
+            background-color: #f9f9f9;
         }
-        form {
-            width: 50%;
-            margin: auto;
-            padding: 20px;
-            background: #f4f4f4;
-            border-radius: 10px;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
         }
-        input, textarea {
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="file"] {
             width: 100%;
-            margin: 10px 0;
-            padding: 10px;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         button {
-            background: #007BFF;
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #007bff;
             color: white;
-            padding: 10px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
-        #cv-preview {
-            width: 50%;
-            margin: auto;
-            text-align: left;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
             margin-top: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-        h2, h3 {
-            color: #007BFF;
+        .card {
+            display: inline-block;
+            padding: 20px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            background-color: #fff;
+            width: 300px;
+            height: 200px;
+            text-align: left;
+            position: relative;
         }
-        textarea {
-            width: 100%;
-            border: none;
-            resize: none;
+        .card img {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 1px solid #000;
+        }
+        .card .info {
+            margin-top: 15px;
+        }
+        .card .info p {
+            margin: 5px 0;
             font-size: 14px;
         }
     </style>
 </head>
 <body>
-
-    <h1>📝 Générateur de CV IA (100% Local)</h1>
-
-    <form id="cvForm">
-        <label>Nom :</label>
-        <input type="text" id="nom" required>
-
-        <label>Prénom :</label>
-        <input type="text" id="prenom" required>
-
-        <label>Email :</label>
-        <input type="email" id="email" required>
-
-        <label>Contexte (ex: 'Développeur Python', 'Étudiant en finance') :</label>
-        <input type="text" id="contexte" required>
-
-        <button type="button" onclick="generateCV()">Générer le CV</button>
-        <button type="button" onclick="downloadPDF()">Télécharger en PDF</button>
-    </form>
-
-    <div id="cv-preview">
-        <h2><textarea id="cv-nom" rows="1"></textarea></h2>
-        <p>Email : <textarea id="cv-email" rows="1"></textarea></p>
-        <h3>Résumé</h3>
-        <textarea id="cv-resume" rows="3"></textarea>
-        <h3>Compétences</h3>
-        <textarea id="cv-competences" rows="3"></textarea>
-        <h3>Expérience</h3>
-        <textarea id="cv-experience" rows="4"></textarea>
-        <h3>Formation</h3>
-        <textarea id="cv-formation" rows="2"></textarea>
+    <div class="container">
+        <h1>Générateur de Carte d'Identité</h1>
+        <form id="identityForm">
+            <div class="form-group">
+                <label for="name">Nom :</label>
+                <input type="text" id="name" placeholder="Entrez votre nom">
+            </div>
+            <div class="form-group">
+                <label for="firstname">Prénom :</label>
+                <input type="text" id="firstname" placeholder="Entrez votre prénom">
+            </div>
+            <div class="form-group">
+                <label for="dob">Date de Naissance :</label>
+                <input type="text" id="dob" placeholder="JJ/MM/AAAA">
+            </div>
+            <div class="form-group">
+                <label for="photo">Photo (fichier image) :</label>
+                <input type="file" id="photo" accept="image/*">
+            </div>
+            <button type="button" onclick="generateCard()">Générer</button>
+        </form>
+        
+        <div class="output">
+            <h2>Prévisualisation de la Carte :</h2>
+            <div class="card" id="cardPreview">
+                <img id="cardPhoto" src="" alt="Photo">
+                <div class="info">
+                    <p><strong>Nom :</strong> <span id="previewName">-</span></p>
+                    <p><strong>Prénom :</strong> <span id="previewFirstname">-</span></p>
+                    <p><strong>Date de Naissance :</strong> <span id="previewDob">-</span></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        async function loadModel() {
-            console.log("Chargement du modèle IA...");
-            const model = await use.load();
-            return model;
-        }
+        function generateCard() {
+            const name = document.getElementById('name').value || '-';
+            const firstname = document.getElementById('firstname').value || '-';
+            const dob = document.getElementById('dob').value || '-';
+            const photoInput = document.getElementById('photo');
 
-        async function generateCV() {
-            let nom = document.getElementById("nom").value;
-            let prenom = document.getElementById("prenom").value;
-            let email = document.getElementById("email").value;
-            let contexte = document.getElementById("contexte").value;
+            // Met à jour les informations
+            document.getElementById('previewName').textContent = name;
+            document.getElementById('previewFirstname').textContent = firstname;
+            document.getElementById('previewDob').textContent = dob;
 
-            if (!nom || !prenom || !email || !contexte) {
-                alert("Remplis tous les champs !");
-                return;
+            // Charge et affiche la photo si un fichier est sélectionné
+            if (photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('cardPhoto').src = e.target.result;
+                };
+                reader.readAsDataURL(photoInput.files[0]);
+            } else {
+                document.getElementById('cardPhoto').src = '';
             }
-
-            document.getElementById("cv-nom").value = prenom + " " + nom;
-            document.getElementById("cv-email").value = email;
-
-            const model = await loadModel();
-            const embeddings = await model.embed([contexte]);
-            const vector = embeddings.arraySync()[0];
-
-            function generateText(seed) {
-                return seed + " - IA générée";  // Simulation, ici on peut brancher un vrai modèle
-            }
-
-            document.getElementById("cv-resume").value = generateText("Résumé basé sur " + contexte);
-            document.getElementById("cv-competences").value = generateText("Compétences associées");
-            document.getElementById("cv-experience").value = generateText("Expériences professionnelles pertinentes");
-            document.getElementById("cv-formation").value = generateText("Formations et diplômes obtenus");
-        }
-
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(20);
-            doc.text(document.getElementById("cv-nom").value, 10, 20);
-
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(12);
-            doc.text("Email : " + document.getElementById("cv-email").value, 10, 30);
-
-            doc.setFont("helvetica", "bold");
-            doc.text("Résumé", 10, 50);
-            doc.setFont("helvetica", "normal");
-            doc.text(document.getElementById("cv-resume").value, 10, 60, { maxWidth: 180 });
-
-            doc.setFont("helvetica", "bold");
-            doc.text("Compétences", 10, 80);
-            doc.setFont("helvetica", "normal");
-            doc.text(document.getElementById("cv-competences").value, 10, 90, { maxWidth: 180 });
-
-            doc.setFont("helvetica", "bold");
-            doc.text("Expérience", 10, 110);
-            doc.setFont("helvetica", "normal");
-            doc.text(document.getElementById("cv-experience").value, 10, 120, { maxWidth: 180 });
-
-            doc.setFont("helvetica", "bold");
-            doc.text("Formation", 10, 140);
-            doc.setFont("helvetica", "normal");
-            doc.text(document.getElementById("cv-formation").value, 10, 150, { maxWidth: 180 });
-
-            doc.save("CV_" + document.getElementById("nom").value + ".pdf");
         }
     </script>
-
 </body>
 </html>
