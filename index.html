@@ -3,34 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Local</title>
+    <title>Chat Local avec Adresse IP</title>
 </head>
 <body>
-    <h1>Chat Local</h1>
+    <h1>Chat Local avec Adresse IP</h1>
     <div id="chat-box" style="border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px;">
-        <!-- Messages will appear here -->
+        <!-- Les messages reçus apparaîtront ici -->
     </div>
-    <input type="text" id="message" placeholder="Type your message" style="width: 80%;">
-    <button onclick="sendMessage()">Send</button>
+    <input type="text" id="target-ip" placeholder="Adresse IP de destination" style="width: 80%;">
+    <br><br>
+    <input type="text" id="message" placeholder="Votre message" style="width: 80%;">
+    <button onclick="sendMessage()">Envoyer</button>
 
     <script>
-        // Connect to the WebSocket server
+        // Connexion au serveur WebSocket
         const ws = new WebSocket('ws://localhost:8080');
         const chatBox = document.getElementById('chat-box');
 
         ws.onmessage = (event) => {
-            // Display received messages in the chat box
+            // Afficher les messages reçus dans le chat
             const message = document.createElement('p');
             message.textContent = event.data;
             chatBox.appendChild(message);
-            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest message
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll automatique vers le bas
         };
 
         function sendMessage() {
-            const input = document.getElementById('message');
-            const message = input.value;
-            ws.send(message); // Send the message to the server
-            input.value = ''; // Clear the input field
+            const targetIP = document.getElementById('target-ip').value;
+            const message = document.getElementById('message').value;
+
+            if (targetIP && message) {
+                // Envoyer un message au serveur avec l'IP cible
+                ws.send(JSON.stringify({ targetIP, content: message }));
+                document.getElementById('message').value = ''; // Effacer le champ message
+            } else {
+                alert('Veuillez remplir tous les champs.');
+            }
         }
     </script>
 </body>
