@@ -18,32 +18,40 @@ document.getElementById('cv-form').addEventListener('submit', function(event) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>CV - ${name}</title>
             <style>
-                body { font-family: Arial, sans-serif; }
-                h1 { color: #333; }
-                .section { margin-bottom: 20px; }
-                .section h2 { color: #555; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
-                .section p { margin: 5px 0; }
+                body { font-family: 'Arial', sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                .cv-template { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); font-family: 'Arial', sans-serif; }
+                .cv-header { text-align: center; margin-bottom: 20px; }
+                .cv-header h1 { margin: 0; font-size: 36px; color: #333; }
+                .cv-header p { margin: 5px 0; font-size: 18px; color: #555; }
+                .cv-section { margin-bottom: 20px; }
+                .cv-section h2 { font-size: 24px; color: #333; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px; }
+                .cv-section p { margin: 5px 0; font-size: 16px; color: #555; }
+                .cv-section ul { list-style-type: none; padding: 0; }
+                .cv-section ul li { margin-bottom: 10px; font-size: 16px; color: #555; }
             </style>
         </head>
         <body>
-            <h1>${name}</h1>
-            <div class="section">
-                <h2>${language === 'fr' ? 'Coordonnées' : 'Contact Information'}</h2>
-                <p>Email: ${email}</p>
-                <p>Téléphone: ${phone}</p>
-                <p>Adresse: ${address}</p>
-            </div>
-            <div class="section">
-                <h2>${language === 'fr' ? 'Éducation' : 'Education'}</h2>
-                <p>${education}</p>
-            </div>
-            <div class="section">
-                <h2>${language === 'fr' ? 'Expérience' : 'Experience'}</h2>
-                <p>${experience}</p>
-            </div>
-            <div class="section">
-                <h2>${language === 'fr' ? 'Compétences' : 'Skills'}</h2>
-                <p>${skills}</p>
+            <div class="cv-template">
+                <div class="cv-header">
+                    <h1>${name}</h1>
+                    <p>${email}</p>
+                    <p>${phone}</p>
+                    <p>${address}</p>
+                </div>
+                <div class="cv-section">
+                    <h2>${language === 'fr' ? 'Éducation' : 'Education'}</h2>
+                    <p>${education}</p>
+                </div>
+                <div class="cv-section">
+                    <h2>${language === 'fr' ? 'Expérience' : 'Experience'}</h2>
+                    <p>${experience}</p>
+                </div>
+                <div class="cv-section">
+                    <h2>${language === 'fr' ? 'Compétences' : 'Skills'}</h2>
+                    <ul>
+                        ${skills.split('\n').map(skill => `<li>${skill}</li>`).join('')}
+                    </ul>
+                </div>
             </div>
         </body>
         </html>
