@@ -3,81 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur de Transformateur</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Analyse d'Exercice</title>
+    <script defer>
+        async function analyserImage() {
+            const input = document.getElementById("imageInput");
+            const file = input.files[0];
+            if (!file) {
+                alert("Veuillez sélectionner une image.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("image", file);
+
+            // Simuler une analyse OCR (à remplacer par une API réelle comme Tesseract.js)
+            const texteExtrait = "Exemple : U1 = 230V, U2 = 12V, N1 = 1000, N2 = 500";
+            const valeurs = texteExtrait.match(/\b\d+\.?\d*\s?[A-Za-z]*\b/g);
+
+            document.getElementById("resultTexte").innerText = "Texte extrait : " + texteExtrait;
+            document.getElementById("resultValeurs").innerText = "Valeurs détectées : " + (valeurs ? valeurs.join(", ") : "Aucune");
+
+            let questions = [];
+            if (valeurs.some(v => v.includes("V"))) questions.push("Quelle est la tension primaire ou secondaire du transformateur ?");
+            if (valeurs.some(v => v.includes("A"))) questions.push("Quel est le courant primaire ou secondaire ?");
+            if (valeurs.some(v => v.includes("Hz"))) questions.push("Quelle est la fréquence du signal ?");
+            if (valeurs.some(v => v.includes("Ω"))) questions.push("Quelle est l'impédance du circuit ?");
+
+            document.getElementById("resultQuestions").innerText = "Questions possibles : " + (questions.length ? questions.join(" | ") : "Aucune");
+        }
+    </script>
 </head>
 <body>
-    <div class="container">
-        <!-- Titre -->
-        <div class="header">
-            <h1>Calculateur de Transformateur</h1>
-            <p>Entrez les valeurs connues et le programme effectuera les calculs possibles.</p>
-        </div>
-
-        <!-- Formulaire pour entrer les valeurs -->
-        <div class="formulaire">
-            <!-- Tensions et courants efficaces -->
-            <div class="form-group">
-                <label for="U1">Valeur efficace U1 (V) :</label>
-                <input type="number" id="U1" placeholder="U1">
-            </div>
-            <div class="form-group">
-                <label for="U2">Valeur efficace U2 (V) :</label>
-                <input type="number" id="U2" placeholder="U2">
-            </div>
-            <div class="form-group">
-                <label for="I1">Valeur efficace I1 (A) :</label>
-                <input type="number" id="I1" placeholder="I1">
-            </div>
-            <div class="form-group">
-                <label for="I2">Valeur efficace I2 (A) :</label>
-                <input type="number" id="I2" placeholder="I2">
-            </div>
-
-            <!-- Résistances -->
-            <div class="form-group">
-                <label for="R1">Résistance primaire (R1) en Ω :</label>
-                <input type="number" id="R1" placeholder="R1">
-            </div>
-            <div class="form-group">
-                <label for="R2">Résistance secondaire (R2) en Ω :</label>
-                <input type="number" id="R2" placeholder="R2">
-            </div>
-
-            <!-- Impédance pure -->
-            <div class="form-group">
-                <label for="Z">Impédance pure (Z) en Ω :</label>
-                <input type="number" id="Z" placeholder="Z">
-            </div>
-
-            <!-- Nombre de spires -->
-            <div class="form-group">
-                <label for="N1">Nombre de spires au primaire (N1) :</label>
-                <input type="number" id="N1" placeholder="N1">
-            </div>
-            <div class="form-group">
-                <label for="N2">Nombre de spires au secondaire (N2) :</label>
-                <input type="number" id="N2" placeholder="N2">
-            </div>
-
-            <!-- Fréquence -->
-            <div class="form-group">
-                <label for="f">Fréquence (f) en Hz :</label>
-                <input type="number" id="f" placeholder="f">
-            </div>
-
-            <!-- Bouton de calcul -->
-            <button onclick="effectuerCalculs()">Calculer</button>
-        </div>
-
-        <!-- Résultats des calculs -->
-        <div class="resultats">
-            <h2>Résultats :</h2>
-            <ul id="resultats"></ul>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <h2>Analyse d'Exercice à partir d'une Image</h2>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="analyserImage()">Analyser</button>
+    <p id="resultTexte"></p>
+    <p id="resultValeurs"></p>
+    <p id="resultQuestions"></p>
 </body>
 </html>
