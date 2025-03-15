@@ -7,6 +7,7 @@ function effectuerCalculs() {
     const I2 = parseFloat(document.getElementById("I2").value);
     const R1 = parseFloat(document.getElementById("R1").value);
     const R2 = parseFloat(document.getElementById("R2").value);
+    const Z = parseFloat(document.getElementById("Z").value);
     const P_active = parseFloat(document.getElementById("P_active").value);
     const Q_reactive = parseFloat(document.getElementById("Q_reactive").value);
     const S_apparente = parseFloat(document.getElementById("S_apparente").value);
@@ -63,12 +64,9 @@ function effectuerCalculs() {
         resultats.push(`Résistance équivalente secondaire (R_eq2) : ${R_eq2.toFixed(2)} Ω`);
     }
 
-    // Impédance pure (Z = R)
-    if (R1) {
-        resultats.push(`Impédance primaire (Z1) : ${R1.toFixed(2)} Ω (résistance pure)`);
-    }
-    if (R2) {
-        resultats.push(`Impédance secondaire (Z2) : ${R2.toFixed(2)} Ω (résistance pure)`);
+    // Impédance pure (Z)
+    if (Z) {
+        resultats.push(`Impédance pure (Z) : ${Z.toFixed(2)} Ω`);
     }
 
     // Afficher les résultats
