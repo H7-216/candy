@@ -39,11 +39,17 @@ function effectuerCalculs() {
     // Puissance active (P = U1 * I1 * cos(φ) ou P = U2 * I2 * cos(φ))
     if (P_active) {
         resultats.push(`Puissance active (P) : ${P_active.toFixed(2)} W`);
+    } else if (S_apparente && Q_reactive) {
+        const P = Math.sqrt(Math.pow(S_apparente, 2) - Math.pow(Q_reactive, 2));
+        resultats.push(`Puissance active (P) calculée : ${P.toFixed(2)} W`);
     }
 
     // Puissance réactive (Q = U1 * I1 * sin(φ) ou Q = U2 * I2 * sin(φ))
     if (Q_reactive) {
         resultats.push(`Puissance réactive (Q) : ${Q_reactive.toFixed(2)} VAR`);
+    } else if (S_apparente && P_active) {
+        const Q = Math.sqrt(Math.pow(S_apparente, 2) - Math.pow(P_active, 2));
+        resultats.push(`Puissance réactive (Q) calculée : ${Q.toFixed(2)} VAR`);
     }
 
     // Rendement (η = (P2 / P1) * 100)
