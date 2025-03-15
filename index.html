@@ -14,45 +14,62 @@
         <!-- Formulaire pour entrer les valeurs -->
         <div class="formulaire">
             <!-- Tensions et courants efficaces -->
-            <label for="U1">Valeur efficace U1 (V) :</label>
-            <input type="number" id="U1" placeholder="U1">
-
-            <label for="U2">Valeur efficace U2 (V) :</label>
-            <input type="number" id="U2" placeholder="U2">
-
-            <label for="I1">Valeur efficace I1 (A) :</label>
-            <input type="number" id="I1" placeholder="I1">
-
-            <label for="I2">Valeur efficace I2 (A) :</label>
-            <input type="number" id="I2" placeholder="I2">
+            <div class="form-group">
+                <label for="U1">Valeur efficace U1 (V) :</label>
+                <input type="number" id="U1" placeholder="U1">
+            </div>
+            <div class="form-group">
+                <label for="U2">Valeur efficace U2 (V) :</label>
+                <input type="number" id="U2" placeholder="U2">
+            </div>
+            <div class="form-group">
+                <label for="I1">Valeur efficace I1 (A) :</label>
+                <input type="number" id="I1" placeholder="I1">
+            </div>
+            <div class="form-group">
+                <label for="I2">Valeur efficace I2 (A) :</label>
+                <input type="number" id="I2" placeholder="I2">
+            </div>
 
             <!-- Résistances -->
-            <label for="R1">Résistance primaire (R1) en Ω :</label>
-            <input type="number" id="R1" placeholder="R1">
-
-            <label for="R2">Résistance secondaire (R2) en Ω :</label>
-            <input type="number" id="R2" placeholder="R2">
+            <div class="form-group">
+                <label for="R1">Résistance primaire (R1) en Ω :</label>
+                <input type="number" id="R1" placeholder="R1">
+            </div>
+            <div class="form-group">
+                <label for="R2">Résistance secondaire (R2) en Ω :</label>
+                <input type="number" id="R2" placeholder="R2">
+            </div>
 
             <!-- Puissances -->
-            <label for="P_active">Puissance active (P) en W :</label>
-            <input type="number" id="P_active" placeholder="P">
-
-            <label for="Q_reactive">Puissance réactive (Q) en VAR :</label>
-            <input type="number" id="Q_reactive" placeholder="Q">
-
-            <label for="S_apparente">Puissance apparente (S) en VA :</label>
-            <input type="number" id="S_apparente" placeholder="S">
+            <div class="form-group">
+                <label for="P_active">Puissance active (P) en W :</label>
+                <input type="number" id="P_active" placeholder="P">
+            </div>
+            <div class="form-group">
+                <label for="Q_reactive">Puissance réactive (Q) en VAR :</label>
+                <input type="number" id="Q_reactive" placeholder="Q">
+            </div>
+            <div class="form-group">
+                <label for="S_apparente">Puissance apparente (S) en VA :</label>
+                <input type="number" id="S_apparente" placeholder="S">
+            </div>
 
             <!-- Nombre de spires -->
-            <label for="N1">Nombre de spires au primaire (N1) :</label>
-            <input type="number" id="N1" placeholder="N1">
-
-            <label for="N2">Nombre de spires au secondaire (N2) :</label>
-            <input type="number" id="N2" placeholder="N2">
+            <div class="form-group">
+                <label for="N1">Nombre de spires au primaire (N1) :</label>
+                <input type="number" id="N1" placeholder="N1">
+            </div>
+            <div class="form-group">
+                <label for="N2">Nombre de spires au secondaire (N2) :</label>
+                <input type="number" id="N2" placeholder="N2">
+            </div>
 
             <!-- Fréquence -->
-            <label for="f">Fréquence (f) en Hz :</label>
-            <input type="number" id="f" placeholder="f">
+            <div class="form-group">
+                <label for="f">Fréquence (f) en Hz :</label>
+                <input type="number" id="f" placeholder="f">
+            </div>
 
             <button onclick="effectuerCalculs()">Calculer</button>
         </div>
