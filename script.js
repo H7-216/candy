@@ -63,6 +63,14 @@ function effectuerCalculs() {
         resultats.push(`Résistance équivalente secondaire (R_eq2) : ${R_eq2.toFixed(2)} Ω`);
     }
 
+    // Impédance pure (Z = R)
+    if (R1) {
+        resultats.push(`Impédance primaire (Z1) : ${R1.toFixed(2)} Ω (résistance pure)`);
+    }
+    if (R2) {
+        resultats.push(`Impédance secondaire (Z2) : ${R2.toFixed(2)} Ω (résistance pure)`);
+    }
+
     // Afficher les résultats
     const resultatsListe = document.getElementById("resultats");
     resultatsListe.innerHTML = resultats.map(r => `<li>${r}</li>`).join("");
