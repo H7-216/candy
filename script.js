@@ -8,9 +8,6 @@ function effectuerCalculs() {
     const R1 = parseFloat(document.getElementById("R1").value);
     const R2 = parseFloat(document.getElementById("R2").value);
     const Z = parseFloat(document.getElementById("Z").value);
-    const P_active = parseFloat(document.getElementById("P_active").value);
-    const Q_reactive = parseFloat(document.getElementById("Q_reactive").value);
-    const S_apparente = parseFloat(document.getElementById("S_apparente").value);
     const N1 = parseFloat(document.getElementById("N1").value);
     const N2 = parseFloat(document.getElementById("N2").value);
     const f = parseFloat(document.getElementById("f").value);
@@ -18,61 +15,59 @@ function effectuerCalculs() {
     // Initialiser les résultats
     const resultats = [];
 
-    // Rapport de transformation (R = U1 / U2 ou R = N1 / N2)
-    if (U1 && U2) {
-        const R = U1 / U2;
-        resultats.push(`Rapport de transformation (R) : ${R.toFixed(2)} (sans unité)`);
-    } else if (N1 && N2) {
+    // 1. Calculer le rapport de transformation (R = N1 / N2)
+    if (N1 && N2) {
         const R = N1 / N2;
         resultats.push(`Rapport de transformation (R) : ${R.toFixed(2)} (sans unité)`);
     }
 
-    // Puissance apparente (S = U1 * I1 ou S = U2 * I2)
+    // 2. Calculer la valeur efficace U2 (U2 = U1 / R)
+    if (U1 && N1 && N2) {
+        const R = N1 / N2;
+        const U2_calcule = U1 / R;
+        resultats.push(`Valeur efficace U2 : ${U2_calcule.toFixed(2)} V`);
+    }
+
+    // 3. Calculer la valeur efficace I2 (I2 = U2 / Z)
+    if (U2 && Z) {
+        const I2_calcule = U2 / Z;
+        resultats.push(`Valeur efficace I2 : ${I2_calcule.toFixed(2)} A`);
+    } else if (U1 && N1 && N2 && Z) {
+        const R = N1 / N2;
+        const U2_calcule = U1 / R;
+        const I2_calcule = U2_calcule / Z;
+        resultats.push(`Valeur efficace I2 : ${I2_calcule.toFixed(2)} A`);
+    }
+
+    // 4. Calculer la valeur efficace I1 (I1 = I2 / R)
+    if (I2 && N1 && N2) {
+        const R = N1 / N2;
+        const I1_calcule = I2 / R;
+        resultats.push(`Valeur efficace I1 : ${I1_calcule.toFixed(2)} A`);
+    }
+
+    // 5. Calculer la résistance équivalente vue du primaire (R_eq = R * Z)
+    if (N1 && N2 && Z) {
+        const R = N1 / N2;
+        const R_eq = R * Z;
+        resultats.push(`Résistance équivalente vue du primaire : ${R_eq.toFixed(2)} Ω`);
+    }
+
+    // 6. Calculer la puissance active au primaire (P = U1 * I1)
+    if (U1 && I1) {
+        const P = U1 * I1;
+        resultats.push(`Puissance active au primaire : ${P.toFixed(2)} W`);
+    }
+
+    // 7. Calculer la puissance réactive au primaire (Q = 0 pour une charge résistive)
+    if (Z) {
+        resultats.push(`Puissance réactive au primaire : 0 VAR (charge résistive)`);
+    }
+
+    // 8. Calculer la puissance apparente au primaire (S = U1 * I1)
     if (U1 && I1) {
         const S = U1 * I1;
-        resultats.push(`Puissance apparente (S) : ${S.toFixed(2)} VA`);
-    } else if (U2 && I2) {
-        const S = U2 * I2;
-        resultats.push(`Puissance apparente (S) : ${S.toFixed(2)} VA`);
-    }
-
-    // Puissance active (P = U1 * I1 * cos(φ) ou P = U2 * I2 * cos(φ))
-    if (P_active) {
-        resultats.push(`Puissance active (P) : ${P_active.toFixed(2)} W`);
-    } else if (S_apparente && Q_reactive) {
-        const P = Math.sqrt(Math.pow(S_apparente, 2) - Math.pow(Q_reactive, 2));
-        resultats.push(`Puissance active (P) calculée : ${P.toFixed(2)} W`);
-    }
-
-    // Puissance réactive (Q = U1 * I1 * sin(φ) ou Q = U2 * I2 * sin(φ))
-    if (Q_reactive) {
-        resultats.push(`Puissance réactive (Q) : ${Q_reactive.toFixed(2)} VAR`);
-    } else if (S_apparente && P_active) {
-        const Q = Math.sqrt(Math.pow(S_apparente, 2) - Math.pow(P_active, 2));
-        resultats.push(`Puissance réactive (Q) calculée : ${Q.toFixed(2)} VAR`);
-    }
-
-    // Rendement (η = (P2 / P1) * 100)
-    if (P_active && S_apparente) {
-        const η = (P_active / S_apparente) * 100;
-        resultats.push(`Rendement (η) : ${η.toFixed(2)} %`);
-    }
-
-    // Résistance équivalente primaire (R_eq1 = R1 + R2 * (N1/N2)^2)
-    if (R1 && R2 && N1 && N2) {
-        const R_eq1 = R1 + R2 * Math.pow(N1 / N2, 2);
-        resultats.push(`Résistance équivalente primaire (R_eq1) : ${R_eq1.toFixed(2)} Ω`);
-    }
-
-    // Résistance équivalente secondaire (R_eq2 = R2 + R1 * (N2/N1)^2)
-    if (R1 && R2 && N1 && N2) {
-        const R_eq2 = R2 + R1 * Math.pow(N2 / N1, 2);
-        resultats.push(`Résistance équivalente secondaire (R_eq2) : ${R_eq2.toFixed(2)} Ω`);
-    }
-
-    // Impédance pure (Z)
-    if (Z) {
-        resultats.push(`Impédance pure (Z) : ${Z.toFixed(2)} Ω`);
+        resultats.push(`Puissance apparente au primaire : ${S.toFixed(2)} VA`);
     }
 
     // Afficher les résultats
