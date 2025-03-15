@@ -7,13 +7,19 @@ function effectuerCalculs() {
     const I2 = parseFloat(document.getElementById("I2").value);
     const P1 = parseFloat(document.getElementById("P1").value);
     const P2 = parseFloat(document.getElementById("P2").value);
+    const N1 = parseFloat(document.getElementById("N1").value);
+    const N2 = parseFloat(document.getElementById("N2").value);
+    const f = parseFloat(document.getElementById("f").value);
 
     // Initialiser les résultats
     const resultats = [];
 
-    // Calculer le rapport de transformation (R = U1 / U2)
+    // Calculer le rapport de transformation (R = U1 / U2 ou R = N1 / N2)
     if (U1 && U2) {
         const R = U1 / U2;
+        resultats.push(`Rapport de transformation (R) : ${R.toFixed(2)} (sans unité)`);
+    } else if (N1 && N2) {
+        const R = N1 / N2;
         resultats.push(`Rapport de transformation (R) : ${R.toFixed(2)} (sans unité)`);
     }
 
@@ -37,6 +43,30 @@ function effectuerCalculs() {
         const R = U1 / U2;
         const I2_calcule = I1 / R;
         resultats.push(`Courant secondaire (I2) : ${I2_calcule.toFixed(2)} A`);
+    } else if (I1 && N1 && N2) {
+        const R = N1 / N2;
+        const I2_calcule = I1 / R;
+        resultats.push(`Courant secondaire (I2) : ${I2_calcule.toFixed(2)} A`);
+    }
+
+    // Calculer le nombre de spires manquant (N1 ou N2)
+    if (N1 && U1 && U2) {
+        const N2_calcule = (N1 * U2) / U1;
+        resultats.push(`Nombre de spires au secondaire (N2) : ${N2_calcule.toFixed(2)}`);
+    } else if (N2 && U1 && U2) {
+        const N1_calcule = (N2 * U1) / U2;
+        resultats.push(`Nombre de spires au primaire (N1) : ${N1_calcule.toFixed(2)}`);
+    }
+
+    // Calculs liés à la fréquence (f)
+    if (f) {
+        // Calcul de la pulsation (ω = 2πf)
+        const ω = 2 * Math.PI * f;
+        resultats.push(`Pulsation (ω) : ${ω.toFixed(2)} rad/s`);
+
+        // Calcul de la réactance (si inductance L est connue)
+        // Exemple : X_L = ω * L (nécessite une inductance L)
+        // Si tu veux ajouter l'inductance, dis-le-moi !
     }
 
     // Afficher les résultats
