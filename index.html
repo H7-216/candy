@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Builder Pro - Générateur IA</title>
+    <title>CVGen - Créateur de CV Nouvelle Génération</title>
     <style>
         * {
             margin: 0;
@@ -12,441 +12,326 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
             overflow-x: hidden;
         }
 
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2rem;
+            padding: 1rem 0;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.3)); }
+            to { filter: drop-shadow(0 0 20px rgba(78, 205, 196, 0.5)); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #4ecdc4;
+            transform: translateY(-2px);
         }
 
         .hero {
             text-align: center;
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 4rem 0;
+            color: white;
         }
 
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            color: white;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 1s ease-out;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         .hero p {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
             margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
+            opacity: 0.9;
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.4s both;
-        }
-
-        .btn {
+        .cta-button {
+            display: inline-block;
             padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            position: relative;
-            overflow: hidden;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .btn-primary {
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
-            color: white;
-            transform: translateY(0);
-        }
-
-        .btn-primary:hover {
+        .cta-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+        .features {
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin: 2rem 0;
+            border-radius: 20px;
         }
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
+        .features-grid {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            min-height: 80vh;
         }
 
-        .sidebar {
+        .feature-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .app-container {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 2rem;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            height: fit-content;
-            position: sticky;
-            top: 120px;
+            margin: 2rem 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
         }
 
-        .form-section {
+        .tabs {
+            display: flex;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
 
-        .form-section h3 {
-            color: #4a5568;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .tab {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab:hover, .tab.active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .form-group label {
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #2d3748;
-            font-weight: 500;
+            font-weight: 600;
+            color: #333;
         }
 
-        .form-group input, .form-group textarea, .form-group select {
+        input, textarea, select {
             width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e2e8f0;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
         }
 
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #4ecdc4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
         }
 
-        .ai-section {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+        .ai-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             color: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-        }
-
-        .ai-section h3 {
-            color: white;
-            margin-bottom: 1rem;
-        }
-
-        .ai-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
             cursor: pointer;
+            font-weight: 600;
             transition: all 0.3s ease;
-            width: 100%;
-            margin-bottom: 0.5rem;
+            white-space: nowrap;
         }
 
-        .ai-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .ai-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .ai-button:active {
+            transform: scale(0.95);
+        }
+
+        .experience-section, .education-section {
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: rgba(78, 205, 196, 0.05);
+        }
+
+        .add-button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-button:hover {
+            background: #45b7d1;
             transform: translateY(-2px);
         }
 
-        .preview-area {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .template-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .template-card {
-            width: 120px;
-            height: 160px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 3px solid transparent;
-        }
-
-        .template-card.active {
-            border-color: #667eea;
-            transform: scale(1.05);
-        }
-
-        .template-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .template-1 {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-
-        .template-2 {
-            background: linear-gradient(135deg, #ff6b6b, #feca57);
-        }
-
-        .template-3 {
-            background: linear-gradient(135deg, #48bb78, #38a169);
-        }
-
-        .template-4 {
-            background: linear-gradient(135deg, #ed8936, #dd6b20);
-        }
-
-        .cv-preview {
-            background: white;
-            border-radius: 15px;
-            padding: 3rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            margin-top: 2rem;
-            min-height: 800px;
-            position: relative;
-        }
-
-        .cv-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .cv-name {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #2d3748;
-            margin-bottom: 0.5rem;
-        }
-
-        .cv-title {
-            font-size: 1.3rem;
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-
-        .cv-contact {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            color: #4a5568;
-        }
-
-        .cv-section {
-            margin-bottom: 2rem;
-        }
-
-        .cv-section h3 {
-            color: #2d3748;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .experience-item, .education-item {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .item-title {
-            font-weight: 600;
-            color: #2d3748;
-        }
-
-        .item-date {
-            color: #667eea;
-            font-size: 0.9rem;
-        }
-
-        .item-company {
-            color: #4a5568;
-            font-style: italic;
-            margin-bottom: 0.5rem;
-        }
-
-        .skills-grid {
+        .templates {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
-        }
-
-        .skill-category {
-            background: rgba(102, 126, 234, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-        }
-
-        .skill-category h4 {
-            color: #2d3748;
-            margin-bottom: 0.5rem;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .skill-tag {
-            background: #667eea;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
-        }
-
-        .export-section {
             margin-top: 2rem;
-            padding: 1.5rem;
-            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .template {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
             border-radius: 15px;
             text-align: center;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 2rem;
             cursor: pointer;
-            color: #666;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
         }
 
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 2rem;
+        .template:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+        .template.selected {
+            border-color: #4ecdc4;
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .export-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .export-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        .floating-shapes {
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-elements {
             position: fixed;
             top: 0;
             left: 0;
@@ -456,606 +341,906 @@
             z-index: -1;
         }
 
-        .shape {
+        .floating-element {
             position: absolute;
+            width: 20px;
+            height: 20px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
+            animation: float-random 6s ease-in-out infinite;
         }
 
-        .shape:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
+        @keyframes float-random {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
-        .shape:nth-child(2) {
-            width: 120px;
-            height: 120px;
-            top: 20%;
-            right: 10%;
-            animation-delay: 2s;
-        }
-
-        .shape:nth-child(3) {
-            width: 60px;
-            height: 60px;
-            bottom: 30%;
-            left: 20%;
-            animation-delay: 4s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        .preview-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
             .hero h1 {
                 font-size: 2.5rem;
             }
             
-            .cta-buttons {
+            .tabs {
                 flex-direction: column;
-                align-items: center;
             }
             
-            .template-selector {
-                justify-content: center;
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .export-buttons {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">🚀 CV Builder Pro</div>
-            <div>
-                <button class="btn btn-secondary" onclick="showSection('cv')">CV</button>
-                <button class="btn btn-secondary" onclick="showSection('lettre')">Lettre</button>
-            </div>
+    <div class="floating-elements"></div>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">CVGen ✨</a>
+                <div class="nav-links">
+                    <a href="#home">Accueil</a>
+                    <a href="#features">Fonctionnalités</a>
+                    <a href="#app">Créer</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <div class="hero">
-        <h1>Créez votre CV parfait</h1>
-        <p>Générateur intelligent avec IA pour des CV et lettres de motivation qui font la différence</p>
-        <div class="cta-buttons">
-            <button class="btn btn-primary" onclick="showSection('cv')">🎯 Créer mon CV</button>
-            <button class="btn btn-secondary" onclick="showSection('lettre')">✍️ Lettre de motivation</button>
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Créer ton CV de dingue ! 🚀</h1>
+            <p>Des CV et lettres de motivation stylés avec l'aide de l'IA - Pour la génération qui ne fait pas dans la médiocrité</p>
+            <a href="#app" class="cta-button">Commencer maintenant</a>
         </div>
-    </div>
+    </section>
 
-    <div class="main-container" id="cvSection">
-        <div class="sidebar">
-            <div class="ai-section">
-                <h3>🤖 Assistant IA</h3>
-                <button class="ai-btn" onclick="generateWithAI('experience')">✨ Générer expériences</button>
-                <button class="ai-btn" onclick="generateWithAI('skills')">🎯 Suggérer compétences</button>
-                <button class="ai-btn" onclick="generateWithAI('summary')">📝 Créer résumé</button>
-                <button class="ai-btn" onclick="optimizeCV()">⚡ Optimiser CV</button>
-            </div>
-
-            <div class="form-section">
-                <h3>👤 Informations personnelles</h3>
-                <div class="form-group">
-                    <label>Nom complet</label>
-                    <input type="text" id="fullName" placeholder="Jean Dupont" oninput="updatePreview()">
+    <section id="features" class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>IA Assistée</h3>
+                    <p>Bloqué ? Pas de panique ! Notre IA génère automatiquement du contenu stylé pour toi</p>
                 </div>
-                <div class="form-group">
-                    <label>Titre professionnel</label>
-                    <input type="text" id="jobTitle" placeholder="Développeur Full Stack" oninput="updatePreview()">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Templates 2025</h3>
+                    <p>Des modèles ultra-modernes qui sortent du lot - Fini les CV ringards de tes parents</p>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="email" placeholder="jean.dupont@email.com" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <label>Téléphone</label>
-                    <input type="tel" id="phone" placeholder="06 12 34 56 78" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <label>Ville</label>
-                    <input type="text" id="city" placeholder="Paris, France" oninput="updatePreview()">
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h3>💼 Expérience professionnelle</h3>
-                <div id="experienceContainer">
-                    <div class="experience-form">
-                        <div class="form-group">
-                            <label>Poste</label>
-                            <input type="text" placeholder="Développeur Web" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Entreprise</label>
-                            <input type="text" placeholder="TechCorp" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Période</label>
-                            <input type="text" placeholder="2021 - Présent" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea placeholder="Développement d'applications web..." oninput="updatePreview()"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-secondary" onclick="addExperience()">+ Ajouter expérience</button>
-            </div>
-
-            <div class="form-section">
-                <h3>🎓 Formation</h3>
-                <div class="form-group">
-                    <label>Diplôme</label>
-                    <input type="text" id="degree" placeholder="Master en Informatique" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <label>École</label>
-                    <input type="text" id="school" placeholder="Université Paris-Saclay" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <label>Année</label>
-                    <input type="text" id="year" placeholder="2020" oninput="updatePreview()">
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h3>🛠️ Compétences</h3>
-                <div class="form-group">
-                    <label>Compétences techniques</label>
-                    <input type="text" id="technicalSkills" placeholder="JavaScript, React, Node.js..." oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <label>Langues</label>
-                    <input type="text" id="languages" placeholder="Français (natif), Anglais (C1)..." oninput="updatePreview()">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Export Facile</h3>
+                    <p>PDF, Word, ou partage direct - Ton CV prêt en 2 clics pour postuler partout</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="preview-area">
-            <div class="template-selector">
-                <div class="template-card template-1 active" onclick="selectTemplate(1)">
-                    <div style="color: white; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; font-weight: bold;">Moderne</div>
-                    </div>
-                </div>
-                <div class="template-card template-2" onclick="selectTemplate(2)">
-                    <div style="color: white; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; font-weight: bold;">Créatif</div>
-                    </div>
-                </div>
-                <div class="template-card template-3" onclick="selectTemplate(3)">
-                    <div style="color: white; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; font-weight: bold;">Professionnel</div>
-                    </div>
-                </div>
-                <div class="template-card template-4" onclick="selectTemplate(4)">
-                    <div style="color: white; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; font-weight: bold;">Élégant</div>
-                    </div>
-                </div>
+    <section id="app" class="container">
+        <div class="app-container">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('cv')">📄 Créer CV</button>
+                <button class="tab" onclick="showTab('lettre')">💌 Lettre de Motivation</button>
+                <button class="tab" onclick="showTab('preview')">👀 Aperçu</button>
             </div>
 
-            <div class="cv-preview" id="cvPreview">
-                <div class="cv-header">
-                    <div class="cv-name" id="previewName">Votre Nom</div>
-                    <div class="cv-title" id="previewTitle">Titre professionnel</div>
-                    <div class="cv-contact">
-                        <span id="previewEmail">email@example.com</span>
-                        <span id="previewPhone">06 12 34 56 78</span>
-                        <span id="previewCity">Ville, Pays</span>
+            <div id="cv-tab" class="tab-content active">
+                <h2>Créer ton CV de fou 🔥</h2>
+                
+                <div class="form-group">
+                    <h3>Informations Personnelles</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nom">Nom</label>
+                            <input type="text" id="nom" placeholder="Ton nom">
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">Prénom</label>
+                            <input type="text" id="prenom" placeholder="Ton prénom">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="ton.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" id="telephone" placeholder="06 12 34 56 78">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="adresse">Adresse</label>
+                            <input type="text" id="adresse" placeholder="Ton adresse">
+                        </div>
+                        <button class="ai-button" onclick="generatePersonalInfo()">🤖 Générer par IA</button>
                     </div>
                 </div>
 
-                <div class="cv-section">
-                    <h3>💼 Expérience professionnelle</h3>
-                    <div id="previewExperience">
-                        <div class="experience-item">
-                            <div class="item-header">
-                                <div class="item-title">Poste actuel</div>
-                                <div class="item-date">2021 - Présent</div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="titre">Titre/Poste recherché</label>
+                            <input type="text" id="titre" placeholder="Ex: Développeur Full Stack Junior">
+                        </div>
+                        <button class="ai-button" onclick="generateTitle()">🤖 Générer par IA</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accroche">Accroche/Résumé</label>
+                            <textarea id="accroche" rows="3" placeholder="Parle-nous de toi en quelques mots..."></textarea>
+                        </div>
+                        <button class="ai-button" onclick="generateAccroche()">🤖 Générer par IA</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h3>Expériences Professionnelles</h3>
+                    <div id="experiences">
+                        <div class="experience-section">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Poste</label>
+                                    <input type="text" placeholder="Ex: Stagiaire Marketing">
+                                </div>
+                                <div class="form-group">
+                                    <label>Entreprise</label>
+                                    <input type="text" placeholder="Ex: TechCorp">
+                                </div>
                             </div>
-                            <div class="item-company">Entreprise</div>
-                            <div>Description de votre rôle et responsabilités...</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="cv-section">
-                    <h3>🎓 Formation</h3>
-                    <div class="education-item">
-                        <div class="item-header">
-                            <div class="item-title" id="previewDegree">Diplôme</div>
-                            <div class="item-date" id="previewYear">Année</div>
-                        </div>
-                        <div class="item-company" id="previewSchool">École/Université</div>
-                    </div>
-                </div>
-
-                <div class="cv-section">
-                    <h3>🛠️ Compétences</h3>
-                    <div class="skills-grid">
-                        <div class="skill-category">
-                            <h4>Techniques</h4>
-                            <div class="skill-tags" id="previewTechnicalSkills">
-                                <span class="skill-tag">JavaScript</span>
-                                <span class="skill-tag">React</span>
-                                <span class="skill-tag">Node.js</span>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Période</label>
+                                    <input type="text" placeholder="Ex: Jan 2024 - Mars 2024">
+                                </div>
+                                <button class="ai-button" onclick="generateExperience(this)">🤖 Générer par IA</button>
                             </div>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Langues</h4>
-                            <div class="skill-tags" id="previewLanguages">
-                                <span class="skill-tag">Français</span>
-                                <span class="skill-tag">Anglais</span>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea rows="3" placeholder="Décris ce que tu as fait..."></textarea>
                             </div>
                         </div>
                     </div>
+                    <button class="add-button" onclick="addExperience()">+ Ajouter une expérience</button>
+                </div>
+
+                <div class="form-group">
+                    <h3>Formation</h3>
+                    <div id="formations">
+                        <div class="education-section">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Diplôme</label>
+                                    <input type="text" placeholder="Ex: Master en Informatique">
+                                </div>
+                                <div class="form-group">
+                                    <label>École/Université</label>
+                                    <input type="text" placeholder="Ex: Université Paris-Saclay">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Année</label>
+                                    <input type="text" placeholder="Ex: 2023-2025">
+                                </div>
+                                <button class="ai-button" onclick="generateEducation(this)">🤖 Générer par IA</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-button" onclick="addEducation()">+ Ajouter une formation</button>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="competences">Compétences</label>
+                            <textarea id="competences" rows="3" placeholder="Liste tes compétences (séparées par des virgules)"></textarea>
+                        </div>
+                        <button class="ai-button" onclick="generateSkills()">🤖 Générer par IA</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h3>Choisir un template</h3>
+                    <div class="templates">
+                        <div class="template selected" onclick="selectTemplate(this)" data-template="modern">
+                            <h4>Modern Pro</h4>
+                            <p>Clean & Minimal</p>
+                        </div>
+                        <div class="template" onclick="selectTemplate(this)" data-template="creative">
+                            <h4>Creative</h4>
+                            <p>Bold & Colorful</p>
+                        </div>
+                        <div class="template" onclick="selectTemplate(this)" data-template="tech">
+                            <h4>Tech Savvy</h4>
+                            <p>Futuristic</p>
+                        </div>
+                        <div class="template" onclick="selectTemplate(this)" data-template="elegant">
+                            <h4>Elegant</h4>
+                            <p>Sophisticated</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="export-section">
-                <h3>📄 Exporter votre CV</h3>
-                <button class="btn btn-primary" onclick="exportPDF()">📥 Télécharger PDF</button>
-                <button class="btn btn-secondary" onclick="exportWord()">📝 Télécharger Word</button>
-                <button class="btn btn-secondary" onclick="shareCV()">🔗 Partager</button>
-            </div>
-        </div>
-    </div>
+            <div id="lettre-tab" class="tab-content">
+                <h2>Lettre de Motivation 💌</h2>
+                
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="entreprise">Entreprise</label>
+                            <input type="text" id="entreprise" placeholder="Nom de l'entreprise">
+                        </div>
+                        <div class="form-group">
+                            <label for="poste">Poste</label>
+                            <input type="text" id="poste" placeholder="Poste visé">
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Modal pour l'IA -->
-    <div class="modal" id="aiModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>🤖 Assistant IA</h3>
-            <div class="loading" id="aiLoading">
-                <div class="spinner"></div>
-                <p>L'IA génère votre contenu...</p>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lettre-contenu">Contenu de la lettre</label>
+                            <textarea id="lettre-contenu" rows="10" placeholder="Écris ta lettre de motivation ou laisse l'IA faire le travail..."></textarea>
+                        </div>
+                        <button class="ai-button" onclick="generateLettre()">🤖 Générer par IA</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tone">Ton de la lettre</label>
+                    <select id="tone">
+                        <option value="professionnel">Professionnel</option>
+                        <option value="decontracte">Décontracté</option>
+                        <option value="enthousiaste">Enthousiaste</option>
+                        <option value="creatif">Créatif</option>
+                    </select>
+                </div>
             </div>
-            <div id="aiResult"></div>
+
+            <div id="preview-tab" class="tab-content">
+                <h2>Aperçu de ton CV 👀</h2>
+                <div class="preview-section">
+                    <div id="cv-preview">
+                        <h3>Ton CV apparaîtra ici</h3>
+                        <p>Remplis les informations dans l'onglet "Créer CV" pour voir l'aperçu</p>
+                    </div>
+                </div>
+                
+                <div class="export-buttons">
+                    <button class="export-btn" onclick="exportPDF()">📄 Exporter en PDF</button>
+                    <button class="export-btn" onclick="exportWord()">📝 Exporter en Word</button>
+                    <button class="export-btn" onclick="shareCV()">🔗 Partager</button>
+                    <button class="export-btn" onclick="saveTemplate()">💾 Sauvegarder</button>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
     <script>
-        let currentTemplate = 1;
-        
-        function showSection(section) {
-            // Logique pour basculer entre CV et lettre de motivation
-            console.log('Affichage section:', section);
-        }
-        
-        function selectTemplate(templateId) {
-            currentTemplate = templateId;
-            document.querySelectorAll('.template-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            document.querySelector('.template-' + templateId).classList.add('active');
+        // Variables globales
+        let cvData = {
+            personal: {},
+            experiences: [],
+            education: [],
+            skills: [],
+            template: 'modern'
+        };
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingElements();
+            updatePreview();
+        });
+
+        // Gestion des onglets
+        function showTab(tabName) {
+            // Masquer tous les onglets
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
             
-            // Appliquer le style du template
-            applyTemplateStyle(templateId);
-        }
-        
-        function applyTemplateStyle(templateId) {
-            const preview = document.getElementById('cvPreview');
-            const themes = {
-                1: { primary: '#667eea', secondary: '#764ba2' },
-                2: { primary: '#ff6b6b', secondary: '#feca57' },
-                3: { primary: '#48bb78', secondary: '#38a169' },
-                4: { primary: '#ed8936', secondary: '#dd6b20' }
-            };
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
             
-            const theme = themes[templateId];
-            preview.style.setProperty('--primary-color', theme.primary);
-            preview.style.setProperty('--secondary-color', theme.secondary);
-        }
-        
-        function updatePreview() {
-            // Mise à jour en temps réel
-            const fullName = document.getElementById('fullName').value || 'Votre Nom';
-            const jobTitle = document.getElementById('jobTitle').value || 'Titre professionnel';
-            const email = document.getElementById('email').value || 'email@example.com';
-            const phone = document.getElementById('phone').value || '06 12 34 56 78';
-            const city = document.getElementById('city').value || 'Ville, Pays';
+            // Afficher l'onglet sélectionné
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
             
-            document.getElementById('previewName').textContent = fullName;
-            document.getElementById('previewTitle').textContent = jobTitle;
-            document.getElementById('previewEmail').textContent = email;
-            document.getElementById('previewPhone').textContent = phone;
-            document.getElementById('previewCity').textContent = city;
-            
-            // Mise à jour des compétences
-            const techSkills = document.getElementById('technicalSkills').value;
-            if (techSkills) {
-                const skillsContainer = document.getElementById('previewTechnicalSkills');
-                skillsContainer.innerHTML = '';
-                techSkills.split(',').forEach(skill => {
-                    const tag = document.createElement('span');
-                    tag.className = 'skill-tag';
-                    tag.textContent = skill.trim();
-                    skillsContainer.appendChild(tag);
-                });
-            }
-            
-            const languages = document.getElementById('languages').value;
-            if (languages) {
-                const langContainer = document.getElementById('previewLanguages');
-                langContainer.innerHTML = '';
-                languages.split(',').forEach(lang => {
-                    const tag = document.createElement('span');
-                    tag.className = 'skill-tag';
-                    tag.textContent = lang.trim();
-                    langContainer.appendChild(tag);
-                });
+            if (tabName === 'preview') {
+                updatePreview();
             }
         }
-        
+
+        // Fonctions de génération par IA
+        function generatePersonalInfo() {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '🤖 Génération...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                // Simulation de génération IA
+                const sampleData = {
+                    adresse: "123 Rue de la Tech, 75001 Paris",
+                    linkedin: "linkedin.com/in/ton-profil",
+                    portfolio: "ton-portfolio.dev"
+                };
+                
+                if (!document.getElementById('adresse').value) {
+                    document.getElementById('adresse').value = sampleData.adresse;
+                }
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                showNotification('Informations générées par IA ! ✨');
+            }, 2000);
+        }
+
+        function generateTitle() {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '🤖 Génération...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                const titles = [
+                    "Développeur Full Stack Passionné",
+                    "Designer UX/UI Créatif",
+                    "Marketing Digital Specialist",
+                    "Data Scientist Junior",
+                    "Chef de Projet Digital",
+                    "Consultant en Stratégie Digitale"
+                ];
+                
+                const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+                document.getElementById('titre').value = randomTitle;
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                showNotification('Titre généré par IA ! 🎯');
+            }, 1500);
+        }
+
+        function generateAccroche() {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '🤖 Génération...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                const accroches = [
+                    "Passionné par les nouvelles technologies et l'innovation, je suis constamment à la recherche de défis stimulants pour développer mes compétences et contribuer au succès de projets ambitieux.",
+                    "Créatif et rigoureux, j'aime transformer les idées en réalités concrètes. Mon approche collaborative et ma soif d'apprendre me permettent de m'adapter rapidement à tous les environnements.",
+                    "Motivé par l'excellence et l'innovation, je mets ma créativité et mon expertise technique au service de projets qui ont du sens et créent de la valeur.",
+                    "Avec une approche orientée résultats et une passion pour l'apprentissage continu, je suis prêt à relever tous les défis et à contribuer activement à la croissance de votre équipe."
+                ];
+                
+                const randomAccroche = accroches[Math.floor(Math.random() * accroches.length)];
+                document.getElementById('accroche').value = randomAccroche;
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                showNotification('Accroche générée par IA ! 🎨');
+            }, 2000);
+        }
+
+        function generateExperience(button) {
+            const originalText = button.textContent;
+            button.textContent = '🤖 Génération...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                const section = button.closest('.experience-section');
+                const textarea = section.querySelector('textarea');
+                
+                const experiences = [
+                    "• Développement d'applications web responsives\n• Collaboration avec l'équipe de design pour l'optimisation UX\n• Participation à l'amélioration des processus de développement\n• Veille technologique et formation continue",
+                    "• Gestion de projets digitaux de A à Z\n• Coordination d'équipes multidisciplinaires\n• Analyse des performances et optimisation continue\n• Présentation des résultats aux stakeholders",
+                    "• Création de contenu engageant pour les réseaux sociaux\n• Analyse des données et reporting des KPIs\n• Mise en place de campagnes marketing innovantes\n• Collaboration étroite avec les équipes commerciales"
+                ];
+                
+                const randomExp = experiences[Math.floor(Math.random() * experiences.length)];
+                textarea.value = randomExp;
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                showNotification('Expérience générée par IA ! 💼');
+            }, 1800);
+        }
+
+        function generateEducation(button) {
+            const originalText = button.textContent;
+            button.textContent = '🤖 Génération...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                const section = button.closest('.education-section');
+                const inputs = section.querySelectorAll('input');
+                
+                const educations = [
+                    { diplome: "Master en Informatique", ecole: "Université Paris-Saclay", annee: "2023-2025" },
+                    { diplome: "Bachelor en Design Digital", ecole: "École Supérieure d'Art", annee: "2020-2023" },
+                    { diplome: "BTS Services Informatiques", ecole: "Lycée Technique", annee: "2018-2020" }
+                ];
+                
+                const randomEd = educations[Math.floor(Math.random() * educations.length)];
+                
+                if (!inputs[0].value) inputs[0].value = randomEd.diplome;
+                if (!inputs[1].value) inputs[1].value = randomEd.ecole;
+                if (!inputs[2].value) inputs[2].value = randomEd.annee;
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                showNotification('Formation générée par IA ! 🎓');
+            }, 1500);
+        }
+
+        function generateSkills() {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '🤖 Génération...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                const skills = [
+                    "JavaScript, React, Node.js, HTML/CSS, Git, Agile Methodologies",
+                    "Photoshop, Illustrator, Figma, UX Design, UI Design, Prototyping",
+                    "Marketing Digital, SEO, Google Analytics, Social Media, Content Creation",
+                    "Python, Data Analysis, Machine Learning, SQL, Tableau, Statistics"
+                ];
+                
+                const randomSkills = skills[Math.floor(Math.random() * skills.length)];
+                document.getElementById('competences').value = randomSkills;
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                showNotification('Compétences générées par IA ! 🛠️');
+            }, 1200);
+        }
+
+        function generateLettre() {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '🤖 Génération...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                const entreprise = document.getElementById('entreprise').value || "votre entreprise";
+                const poste = document.getElementById('poste').value || "ce poste";
+                const tone = document.getElementById('tone').value;
+                
+                let lettre = "";
+                
+                if (tone === "professionnel") {
+                    lettre = `Madame, Monsieur,\n\n`;
+                    lettre += `Actuellement à la recherche d'un nouveau défi professionnel, je me permets de vous soumettre ma candidature pour le poste de ${poste} au sein de ${entreprise}.\n\n`;
+                    lettre += `Fort(e) de mon expérience et de mes compétences en [domaine], je suis convaincu(e) de pouvoir apporter une réelle valeur ajoutée à votre équipe. [Développer un point spécifique en lien avec l'offre].\n\n`;
+                    lettre += `Mon parcours et ma motivation font de moi un(e) candidat(e) sérieux(se) pour ce poste. Je serais ravi(e) d'échanger avec vous lors d'un entretien pour vous exposer plus en détail mes motivations et ce que je pourrais apporter à ${entreprise}.\n\n`;
+                    lettre += `Dans l'attente de votre retour, je reste à votre disposition pour toute information complémentaire.\n\n`;
+                    lettre += `Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\n`;
+                    lettre += `[Votre nom]`;
+                } else if (tone === "decontracte") {
+                    lettre = `Bonjour,\n\n`;
+                    lettre += `Je me permets de vous écrire pour postuler au poste de ${poste} chez ${entreprise}. Ce qui m'a tout de suite attiré(e) dans votre annonce, c'est [mentionner un aspect spécifique].\n\n`;
+                    lettre += `Je pense que mon profil pourrait vraiment correspondre à ce que vous recherchez. [Expliquer pourquoi en 2-3 points].\n\n`;
+                    lettre += `Si vous pensez aussi qu'on pourrait bien travailler ensemble, je serais super content(e) d'en discuter autour d'un café (virtuel ou réel) !\n\n`;
+                    lettre += `À très vite j'espère,\n\n`;
+                    lettre += `[Votre prénom]`;
+                } else if (tone === "enthousiaste") {
+                    lettre = `Bonjour l'équipe ${entreprise} ! 🚀\n\n`;
+                    lettre += `Quelle excitation de découvrir votre offre pour ${poste} ! C'est EXACTEMENT le type de challenge que je recherche. [Expliquer pourquoi en termes passionnés].\n\n`;
+                    lettre += `Je suis à 1000% motivé(e) à l'idée de rejoindre votre aventure et d'apporter toute mon énergie et mes compétences en [domaine]. [Donner un exemple concret].\n\n`;
+                    lettre += `On en parle ? Je suis disponible dès maintenant pour un premier échange !\n\n`;
+                    lettre += `Avec enthousiasme,\n\n`;
+                    lettre += `[Votre prénom]`;
+                } else {
+                    lettre = `Cher futur employeur,\n\n`;
+                    lettre += `Imaginez un(e) professionnel(le) qui [décrire votre valeur ajoutée de manière métaphorique]. C'est moi, candidat(e) pour ${poste} chez ${entreprise}.\n\n`;
+                    lettre += `Mon approche unique combine [compétence 1] et [compétence 2] pour créer [résultat tangible]. Par exemple, [raconter une anecdote professionnelle marquante].\n\n`;
+                    lettre += `Travailler ensemble serait l'occasion de [décrire une vision créative du poste]. Qu'en pensez-vous ?\n\n`;
+                    lettre += `Créativement vôtre,\n\n`;
+                    lettre += `[Votre nom]`;
+                }
+                
+                document.getElementById('lettre-contenu').value = lettre;
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                showNotification('Lettre générée par IA ! ✉️');
+            }, 2500);
+        }
+
+        // Gestion des sections dynamiques
         function addExperience() {
-            const container = document.getElementById('experienceContainer');
+            const experiencesContainer = document.getElementById('experiences');
             const newExperience = document.createElement('div');
-            newExperience.className = 'experience-form';
+            newExperience.className = 'experience-section';
             newExperience.innerHTML = `
-                <div class="form-group">
-                    <label>Poste</label>
-                    <input type="text" placeholder="Développeur Web" oninput="updatePreview()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Poste</label>
+                        <input type="text" placeholder="Ex: Stagiaire Marketing">
+                    </div>
+                    <div class="form-group">
+                        <label>Entreprise</label>
+                        <input type="text" placeholder="Ex: TechCorp">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Entreprise</label>
-                    <input type="text" placeholder="TechCorp" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <label>Période</label>
-                    <input type="text" placeholder="2021 - Présent" oninput="updatePreview()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Période</label>
+                        <input type="text" placeholder="Ex: Jan 2024 - Mars 2024">
+                    </div>
+                    <button class="ai-button" onclick="generateExperience(this)">🤖 Générer par IA</button>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea placeholder="Développement d'applications web..." oninput="updatePreview()"></textarea>
+                    <textarea rows="3" placeholder="Décris ce que tu as fait..."></textarea>
                 </div>
-                <button class="btn btn-secondary" onclick="this.parentElement.remove()">🗑️ Supprimer</button>
+                <button class="add-button" onclick="removeSection(this)" style="background: #ff6b6b;">- Supprimer</button>
             `;
-            container.appendChild(newExperience);
+            experiencesContainer.appendChild(newExperience);
+            showNotification('Nouvelle expérience ajoutée ! 💼');
         }
-        
-        function generateWithAI(type) {
-            const modal = document.getElementById('aiModal');
-            const loading = document.getElementById('aiLoading');
-            const result = document.getElementById('aiResult');
-            
-            modal.style.display = 'block';
-            loading.style.display = 'block';
-            result.style.display = 'none';
-            
-            // Simulation d'une requête IA (en production, ce serait une requête API)
-            setTimeout(() => {
-                loading.style.display = 'none';
-                result.style.display = 'block';
-                
-                let aiContent = '';
-                switch(type) {
-                    case 'experience':
-                        aiContent = `
-                            <h4>Suggestions d'expériences professionnelles :</h4>
-                            <ul>
-                                <li><strong>Développeur Full Stack</strong> chez TechSolutions (2020-2023)<br>
-                                - Développement d'applications web avec React et Node.js<br>
-                                - Gestion de bases de données MongoDB<br>
-                                - Collaboration avec l'équipe UX/UI</li>
-                                <li><strong>Stagiaire Développeur</strong> chez WebAgency (2019)<br>
-                                - Participation au développement de sites vitrines<br>
-                                - Intégration de maquettes Photoshop</li>
-                            </ul>
-                            <button class="btn btn-primary" onclick="applyAIContent('experience')">Appliquer cette suggestion</button>
-                        `;
-                        break;
-                    case 'skills':
-                        aiContent = `
-                            <h4>Compétences suggérées :</h4>
-                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                                <span class="skill-tag">JavaScript</span>
-                                <span class="skill-tag">React</span>
-                                <span class="skill-tag">Node.js</span>
-                                <span class="skill-tag">HTML5/CSS3</span>
-                                <span class="skill-tag">Git</span>
-                                <span class="skill-tag">MongoDB</span>
-                                <span class="skill-tag">Express</span>
-                                <span class="skill-tag">Anglais technique</span>
-                            </div>
-                            <button class="btn btn-primary" style="margin-top: 1rem;" onclick="applyAIContent('skills')">Appliquer ces compétences</button>
-                        `;
-                        break;
-                    case 'summary':
-                        aiContent = `
-                            <h4>Résumé professionnel généré :</h4>
-                            <p style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
-                                Développeur Full Stack avec 3 ans d'expérience dans la création d'applications web performantes. 
-                                Expertise en JavaScript, React et Node.js avec une solide compréhension des architectures RESTful. 
-                                Passionné par la résolution de problèmes complexes et la création de solutions techniques élégantes. 
-                                Capacité avérée à travailler en équipe agile et à livrer des projets dans les délais.
-                            </p>
-                            <button class="btn btn-primary" onclick="applyAIContent('summary')">Utiliser ce résumé</button>
-                        `;
-                        break;
-                }
-                
-                result.innerHTML = aiContent;
-            }, 2000);
+
+        function addEducation() {
+            const educationContainer = document.getElementById('formations');
+            const newEducation = document.createElement('div');
+            newEducation.className = 'education-section';
+            newEducation.innerHTML = `
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Diplôme</label>
+                        <input type="text" placeholder="Ex: Master en Informatique">
+                    </div>
+                    <div class="form-group">
+                        <label>École/Université</label>
+                        <input type="text" placeholder="Ex: Université Paris-Saclay">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Année</label>
+                        <input type="text" placeholder="Ex: 2023-2025">
+                    </div>
+                    <button class="ai-button" onclick="generateEducation(this)">🤖 Générer par IA</button>
+                </div>
+                <button class="add-button" onclick="removeSection(this)" style="background: #ff6b6b;">- Supprimer</button>
+            `;
+            educationContainer.appendChild(newEducation);
+            showNotification('Nouvelle formation ajoutée ! 🎓');
         }
-        
-        function applyAIContent(type) {
-            switch(type) {
-                case 'experience':
-                    // Ajouter les expériences générées
-                    const expContainer = document.getElementById('experienceContainer');
-                    expContainer.innerHTML = ''; // Effacer les existantes
-                    
-                    // Ajouter la première expérience
-                    const exp1 = document.createElement('div');
-                    exp1.className = 'experience-form';
-                    exp1.innerHTML = `
-                        <div class="form-group">
-                            <label>Poste</label>
-                            <input type="text" value="Développeur Full Stack" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Entreprise</label>
-                            <input type="text" value="TechSolutions" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Période</label>
-                            <input type="text" value="2020 - 2023" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea oninput="updatePreview()">- Développement d'applications web avec React et Node.js\n- Gestion de bases de données MongoDB\n- Collaboration avec l'équipe UX/UI</textarea>
-                        </div>
-                    `;
-                    expContainer.appendChild(exp1);
-                    
-                    // Ajouter la deuxième expérience
-                    const exp2 = document.createElement('div');
-                    exp2.className = 'experience-form';
-                    exp2.innerHTML = `
-                        <div class="form-group">
-                            <label>Poste</label>
-                            <input type="text" value="Stagiaire Développeur" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Entreprise</label>
-                            <input type="text" value="WebAgency" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Période</label>
-                            <input type="text" value="2019" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea oninput="updatePreview()">- Participation au développement de sites vitrines\n- Intégration de maquettes Photoshop</textarea>
-                        </div>
-                        <button class="btn btn-secondary" onclick="this.parentElement.remove()">🗑️ Supprimer</button>
-                    `;
-                    expContainer.appendChild(exp2);
-                    
-                    // Mettre à jour le preview
-                    updatePreview();
-                    break;
-                    
-                case 'skills':
-                    document.getElementById('technicalSkills').value = "JavaScript, React, Node.js, HTML5/CSS3, Git, MongoDB, Express";
-                    document.getElementById('languages').value = "Français (natif), Anglais (technique)";
-                    updatePreview();
-                    break;
-                    
-                case 'summary':
-                    // Ici on pourrait ajouter un champ de résumé si nécessaire
-                    alert("Résumé appliqué (vous pouvez ajouter un champ de résumé dans le formulaire)");
-                    break;
-            }
-            
-            closeModal();
+
+        function removeSection(button) {
+            const section = button.closest('.experience-section, .education-section');
+            section.remove();
+            showNotification('Section supprimée ! 🗑️');
         }
-        
-        function optimizeCV() {
-            const modal = document.getElementById('aiModal');
-            const loading = document.getElementById('aiLoading');
-            const result = document.getElementById('aiResult');
+
+        // Gestion des templates
+        function selectTemplate(element) {
+            const templates = document.querySelectorAll('.template');
+            templates.forEach(t => t.classList.remove('selected'));
+            element.classList.add('selected');
             
-            modal.style.display = 'block';
-            loading.style.display = 'block';
-            result.style.display = 'none';
-            
-            // Simulation d'optimisation par IA
-            setTimeout(() => {
-                loading.style.display = 'none';
-                result.style.display = 'block';
-                
-                result.innerHTML = `
-                    <h4>Suggestions d'optimisation :</h4>
-                    <ul style="margin-bottom: 1rem;">
-                        <li>✅ <strong>Ajouter des chiffres</strong> pour quantifier vos réalisations (ex: "Augmentation de 30% des performances")</li>
-                        <li>✅ <strong>Utiliser des verbes d'action</strong> : "Développé", "Optimisé", "Implémenté"</li>
-                        <li>✅ <strong>Personnaliser les compétences</strong> pour le poste visé</li>
-                        <li>✅ <strong>Vérifier l'orthographe</strong> et la grammaire</li>
-                        <li>✅ <strong>Ajouter des mots-clés</strong> en rapport avec l'offre d'emploi</li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="applyOptimizations()">Appliquer les optimisations</button>
-                `;
-            }, 2500);
+            cvData.template = element.dataset.template;
+            showNotification(`Template ${element.querySelector('h4').textContent} sélectionné ! 🎨`);
+            updatePreview();
         }
-        
-        function applyOptimizations() {
-            // Exemple d'application d'optimisations
-            const expTextareas = document.querySelectorAll('.experience-form textarea');
-            expTextareas.forEach(ta => {
-                if (ta.value.includes("Développement")) {
-                    ta.value = ta.value.replace("Développement", "Conception et développement");
-                }
-                if (!ta.value.match(/\d+/)) {
-                    ta.value += "\n- Augmentation de 40% des performances globales";
-                }
+
+        // Mise à jour de l'aperçu
+        function updatePreview() {
+            // Récupérer toutes les données du formulaire
+            cvData.personal = {
+                nom: document.getElementById('nom').value,
+                prenom: document.getElementById('prenom').value,
+                email: document.getElementById('email').value,
+                telephone: document.getElementById('telephone').value,
+                adresse: document.getElementById('adresse').value,
+                titre: document.getElementById('titre').value,
+                accroche: document.getElementById('accroche').value
+            };
+            
+            cvData.experiences = [];
+            document.querySelectorAll('.experience-section').forEach(exp => {
+                const inputs = exp.querySelectorAll('input');
+                const textarea = exp.querySelector('textarea');
+                cvData.experiences.push({
+                    poste: inputs[0].value,
+                    entreprise: inputs[1].value,
+                    periode: inputs[2].value,
+                    description: textarea.value
+                });
             });
             
-            updatePreview();
-            closeModal();
-            alert("Optimisations appliquées avec succès !");
+            cvData.education = [];
+            document.querySelectorAll('.education-section').forEach(edu => {
+                const inputs = edu.querySelectorAll('input');
+                cvData.education.push({
+                    diplome: inputs[0].value,
+                    ecole: inputs[1].value,
+                    annee: inputs[2].value
+                });
+            });
+            
+            cvData.skills = document.getElementById('competences').value.split(',').map(s => s.trim());
+            
+            // Générer le HTML de l'aperçu
+            let previewHTML = generatePreviewHTML();
+            document.getElementById('cv-preview').innerHTML = previewHTML;
         }
-        
-        function closeModal() {
-            document.getElementById('aiModal').style.display = 'none';
+
+        function generatePreviewHTML() {
+            // Vérifier si les champs obligatoires sont remplis
+            if (!cvData.personal.nom || !cvData.personal.prenom || !cvData.personal.titre) {
+                return `<h3>Ton CV apparaîtra ici</h3><p>Remplis les informations dans l'onglet "Créer CV" pour voir l'aperçu</p>`;
+            }
+            
+            let html = '';
+            
+            // En-tête du CV selon le template choisi
+            if (cvData.template === 'modern') {
+                html += `
+                    <div class="cv-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
+                        <h1 style="margin: 0; font-size: 2.5rem;">${cvData.personal.prenom} ${cvData.personal.nom}</h1>
+                        <h2 style="margin: 0.5rem 0 0 0; font-weight: 400; font-size: 1.5rem;">${cvData.personal.titre}</h2>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+                        <div class="cv-left" style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px;">
+                            <div class="contact-section" style="margin-bottom: 2rem;">
+                                <h3 style="border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; color: #333;">Contact</h3>
+                                <p>📧 ${cvData.personal.email || 'Non renseigné'}</p>
+                                <p>📱 ${cvData.personal.telephone || 'Non renseigné'}</p>
+                                <p>🏠 ${cvData.personal.adresse || 'Non renseigné'}</p>
+                            </div>
+                `;
+            } else if (cvData.template === 'creative') {
+                html += `
+                    <div class="cv-header" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4); color: white; padding: 2rem; border-radius: 10px 10px 0 0; margin-bottom: 0;">
+                        <h1 style="margin: 0; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px;">${cvData.personal.prenom} ${cvData.personal.nom}</h1>
+                        <h2 style="margin: 0.5rem 0 0 0; font-weight: 600; font-size: 1.5rem;">${cvData.personal.titre}</h2>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0; border: 3px solid #333;">
+                        <div class="cv-left" style="background: #333; color: white; padding: 1.5rem;">
+                            <div class="contact-section" style="margin-bottom: 2rem;">
+                                <h3 style="border-bottom: 2px solid #4ecdc4; padding-bottom: 0.5rem; color: white;">Contact</h3>
+                                <p>📧 ${cvData.personal.email || 'Non renseigné'}</p>
+                                <p>📱 ${cvData.personal.telephone || 'Non renseigné'}</p>
+                                <p>🏠 ${cvData.personal.adresse || 'Non renseigné'}</p>
+                            </div>
+                `;
+            } else if (cvData.template === 'tech') {
+                html += `
+                    <div style="background: #222; color: #00ffaa; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; font-family: 'Courier New', monospace; border-left: 5px solid #00ffaa;">
+                        <h1 style="margin: 0; font-size: 2.5rem;">${cvData.personal.prenom} <span style="color: white;">${cvData.personal.nom}</span></h1>
+                        <h2 style="margin: 0.5rem 0 0 0; font-weight: 400; font-size: 1.5rem; color: white;">${cvData.personal.titre}</h2>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+                        <div class="cv-left" style="background: #f0f0f0; padding: 1.5rem; border-radius: 10px; border-left: 5px solid #00ffaa;">
+                            <div class="contact-section" style="margin-bottom: 2rem;">
+                                <h3 style="border-bottom: 2px solid #00ffaa; padding-bottom: 0.5rem; color: #333;">> CONTACT</h3>
+                                <p>📧 ${cvData.personal.email || 'Non renseigné'}</p>
+                                <p>📱 ${cvData.personal.telephone || 'Non renseigné'}</p>
+                                <p>🏠 ${cvData.personal.adresse || 'Non renseigné'}</p>
+                            </div>
+                `;
+            } else { // Template elegant
+                html += `
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <h1 style="margin: 0; font-size: 2.5rem; font-weight: 300; letter-spacing: 2px;">${cvData.personal.prenom} <span style="font-weight: 600;">${cvData.personal.nom}</span></h1>
+                        <h2 style="margin: 0.5rem 0 0 0; font-weight: 400; font-size: 1.2rem; color: #666; text-transform: uppercase; letter-spacing: 3px;">${cvData.personal.titre}</h2>
+                        <div style="height: 1px; background: #ddd; width: 100px; margin: 1rem auto;"></div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+                        <div class="cv-left" style="padding: 1.5rem;">
+                            <div class="contact-section" style="margin-bottom: 2rem;">
+                                <h3 style="border-bottom: 1px solid #ddd; padding-bottom: 0.5rem; color: #333; font-weight: 400; letter-spacing: 1px;">CONTACT</h3>
+                                <p style="margin: 0.5rem 0;">📧 ${cvData.personal.email || 'Non renseigné'}</p>
+                                <p style="margin: 0.5rem 0;">📱 ${cvData.personal.telephone || 'Non renseigné'}</p>
+                                <p style="margin: 0.5rem 0;">🏠 ${cvData.personal.adresse || 'Non renseigné'}</p>
+                            </div>
+                `;
+            }
+            
+            // Section Compétences
+            if (cvData.skills.length > 0 && cvData.skills[0] !== '') {
+                html += `
+                    <div class="skills-section" style="margin-bottom: 2rem;">
+                        <h3 style="${cvData.template === 'creative' ? 'border-bottom: 2px solid #4ecdc4; color: white;' : cvData.template === 'tech' ? 'border-bottom: 2px solid #00ffaa; color: #333;' : 'border-bottom: 2px solid #667eea; color: #333;'} padding-bottom: 0.5rem;">${cvData.template === 'tech' ? '> COMPÉTENCES' : 'Compétences'}</h3>
+                        <ul style="padding-left: 1.2rem; ${cvData.template === 'creative' ? 'color: white;' : ''}">
+                `;
+                
+                cvData.skills.forEach(skill => {
+                    if (skill) {
+                        html += `<li style="margin-bottom: 0.3rem;">${skill}</li>`;
+                    }
+                });
+                
+                html += `
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            html += `</div><div class="cv-right" style="padding: 0 1.5rem;">`;
+            
+            // Section Profil
+            if (cvData.personal.accroche) {
+                html += `
+                    <div class="profile-section" style="margin-bottom: 2rem;">
+                        <h3 style="${cvData.template === 'creative' ? 'border-bottom: 2px solid #4ecdc4; color: #333;' : cvData.template === 'tech' ? 'border-bottom: 2px solid #00ffaa; color: #333;' : 'border-bottom: 2px solid #667eea; color: #333;'} padding-bottom: 0.5rem;">${cvData.template === 'tech' ? '> PROFIL' : 'Profil'}</h3>
+                        <p style="line-height: 1.6;">${cvData.personal.accroche}</p>
+                    </div>
+                `;
+            }
+            
+            // Section Expérience Professionnelle
+            if (cvData.experiences.length > 0) {
+                html += `
+                    <div class="experience-section" style="margin-bottom: 2rem;">
+                        <h3 style="${cvData.template === 'creative' ? 'border-bottom: 2px solid #4ecdc4; color: #333;' : cvData.template === 'tech' ? 'border-bottom: 2px solid #00ffaa; color: #333;' : 'border-bottom: 2px solid #667eea; color: #333;'} padding-bottom: 0.5rem;">${cvData.template === 'tech' ? '> EXPÉRIENCE' : 'Expérience Professionnelle'}</h3>
+                `;
+                
+                cvData.experiences.forEach(exp => {
+                    if (exp.poste || exp.entreprise) {
+                        html += `
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="margin: 0 0 0.3rem 0; font-size: 1.1rem;">${exp.poste || ''} ${exp.poste && exp.entreprise ? '·' : ''} ${exp.entreprise || ''}</h4>
+                                <p style="margin: 0 0 0.5rem 0; color: #666; font-style: italic;">${exp.periode || ''}</p>
+                                <p style="margin: 0; line-height: 1.6; white-space: pre-line;">${exp.description || ''}</p>
+                            </div>
+                        `;
+                    }
+                });
+                
+                html += `</div>`;
+            }
+            
+            // Section Formation
+            if (cvData.education.length > 0) {
+                html += `
+                    <div class="education-section">
+                        <h3 style="${cvData.template === 'creative' ? 'border-bottom: 2px solid #4ecdc4; color: #333;' : cvData.template === 'tech' ? 'border-bottom: 2px solid #00ffaa; color: #333;' : 'border-bottom: 2px solid #667eea; color: #333;'} padding-bottom: 0.5rem;">${cvData.template === 'tech' ? '> FORMATION' : 'Formation'}</h3>
+                `;
+                
+                cvData.education.forEach(edu => {
+                    if (edu.diplome || edu.ecole) {
+                        html += `
+                            <div style="margin-bottom: 1rem;">
+                                <h4 style="margin: 0 0 0.3rem 0; font-size: 1.1rem;">${edu.diplome || ''} ${edu.diplome && edu.ecole ? '·' : ''} ${edu.ecole || ''}</h4>
+                                <p style="margin: 0; color: #666;">${edu.annee || ''}</p>
+                            </div>
+                        `;
+                    }
+                });
+                
+                html += `</div>`;
+            }
+            
+            html += `</div></div>`;
+            
+            return html;
         }
-        
+
+        // Fonctions d'export
         function exportPDF() {
-            // Simulation d'export PDF
-            alert("Export PDF en cours... (en production, utiliser une librairie comme jsPDF ou html2pdf)");
-            // En production : 
-            // const element = document.getElementById('cvPreview');
-            // html2pdf().from(element).save('mon-cv.pdf');
+            showNotification('Export PDF en cours... (simulation) 📄');
+            // En réalité, on utiliserait une librairie comme jsPDF ou html2pdf.js
+            setTimeout(() => {
+                showNotification('CV exporté en PDF avec succès ! ✅');
+            }, 2000);
         }
-        
+
         function exportWord() {
-            alert("Export Word en cours... (en production, utiliser une librairie comme docx)");
+            showNotification('Export Word en cours... (simulation) 📝');
+            // En réalité, on utiliserait une librairie comme docx ou html-docx-js
+            setTimeout(() => {
+                showNotification('CV exporté en Word avec succès ! ✅');
+            }, 2000);
         }
-        
+
         function shareCV() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'Mon CV Professionnel',
-                    text: 'Découvrez mon CV créé avec CV Builder Pro',
+                    title: `CV de ${cvData.personal.prenom} ${cvData.personal.nom}`,
+                    text: `Découvrez mon CV créé avec CVGen`,
                     url: window.location.href
+                }).then(() => {
+                    showNotification('CV partagé avec succès ! ✅');
                 }).catch(err => {
-                    console.log('Erreur de partage:', err);
+                    showNotification('Partage annulé ❌');
                 });
             } else {
-                alert("Fonction de partage non disponible. Copiez ce lien : " + window.location.href);
+                showNotification('Fonction de partage non disponible sur ce navigateur ❌');
             }
         }
-        
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', () => {
-            selectTemplate(1);
-            updatePreview();
+
+        function saveTemplate() {
+            localStorage.setItem('cvData', JSON.stringify(cvData));
+            showNotification('CV sauvegardé avec succès ! 💾');
+        }
+
+        // Fonctions utilitaires
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#333';
+            notification.style.color = 'white';
+            notification.style.padding = '1rem 2rem';
+            notification.style.borderRadius = '10px';
+            notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
+            notification.style.zIndex = '1000';
+            notification.style.animation = 'fadeIn 0.3s ease-in-out';
+            notification.textContent = message;
             
-            // Gestion du clic en dehors de la modal pour la fermer
-            window.onclick = function(event) {
-                const modal = document.getElementById('aiModal');
-                if (event.target == modal) {
-                    closeModal();
-                }
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease-in-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        function createFloatingElements() {
+            const container = document.querySelector('.floating-elements');
+            const colors = ['rgba(255, 107, 107, 0.3)', 'rgba(78, 205, 196, 0.3)', 'rgba(102, 126, 234, 0.3)', 'rgba(118, 75, 162, 0.3)'];
+            
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                
+                // Position aléatoire
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                
+                // Taille aléatoire
+                const size = Math.random() * 20 + 10;
+                
+                // Couleur aléatoire
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Animation delay aléatoire
+                const delay = Math.random() * 5;
+                
+                element.style.left = `${posX}%`;
+                element.style.top = `${posY}%`;
+                element.style.width = `${size}px`;
+                element.style.height = `${size}px`;
+                element.style.background = color;
+                element.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(element);
             }
-        });
+        }
     </script>
 </body>
 </html>
