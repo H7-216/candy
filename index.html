@@ -3,1244 +3,580 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CVGen - Créateur de CV Nouvelle Génération</title>
+    <title>🍭 CANDY CRUSH MADNESS 🍭</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Orbitron:wght@400;700;900&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b);
+            background-size: 400% 400%;
+            animation: gradientShift 4s ease infinite;
+            font-family: 'Fredoka One', cursive;
+            overflow: hidden;
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 800;
-            color: white;
-            text-decoration: none;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.3)); }
-            to { filter: drop-shadow(0 0 20px rgba(78, 205, 196, 0.5)); }
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
             position: relative;
         }
-
-        .nav-links a:hover {
-            color: #4ecdc4;
-            transform: translateY(-2px);
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-
-        .hero {
-            text-align: center;
-            padding: 4rem 0;
-            color: white;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .features {
-            padding: 4rem 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            margin: 2rem 0;
-            border-radius: 20px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            color: white;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .feature-card p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-        }
-
-        .app-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-        }
-
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .tab {
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .tab:hover, .tab.active {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-end;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #4ecdc4;
-            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
-        }
-
-        .ai-button {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .ai-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .ai-button:active {
-            transform: scale(0.95);
-        }
-
-        .experience-section, .education-section {
-            border: 2px dashed #e0e0e0;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            background: rgba(78, 205, 196, 0.05);
-        }
-
-        .add-button {
-            background: #4ecdc4;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .add-button:hover {
-            background: #45b7d1;
-            transform: translateY(-2px);
-        }
-
-        .templates {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .template {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-        }
-
-        .template:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .template.selected {
-            border-color: #4ecdc4;
-            box-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
-        }
-
-        .export-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .export-btn {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .floating-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
+        
+        .background-particles {
+            position: absolute;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: -1;
+            overflow: hidden;
+            z-index: 1;
         }
-
-        .floating-element {
+        
+        .particle {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 50%;
-            animation: float-random 6s ease-in-out infinite;
+            animation: float 6s ease-in-out infinite;
         }
-
-        @keyframes float-random {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(180deg); }
         }
-
-        .preview-section {
-            background: white;
+        
+        .game-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .title {
+            font-size: 3.5em;
+            color: #fff;
+            text-shadow: 0 0 20px #ff006e, 0 0 40px #8338ec, 0 0 60px #3a86ff;
+            margin-bottom: 20px;
+            animation: titlePulse 2s ease-in-out infinite;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .score-board {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .score-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 15px;
-            padding: 2rem;
-            margin-top: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 15px 25px;
+            color: #fff;
+            font-weight: 900;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: scoreGlow 3s ease-in-out infinite;
         }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+        
+        @keyframes scoreGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.8); }
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(8, 60px);
+            grid-template-rows: repeat(8, 60px);
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .candy {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            animation: candyFloat 2s ease-in-out infinite;
+        }
+        
+        @keyframes candyFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .candy.selected {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            border-color: #fff;
+        }
+        
+        .candy.matching {
+            animation: matchPulse 0.5s ease-in-out;
+        }
+        
+        @keyframes matchPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(0); }
+        }
+        
+        .candy.type-1 {
+            background: linear-gradient(45deg, #ff006e, #ff4081);
+            color: #fff;
+        }
+        
+        .candy.type-2 {
+            background: linear-gradient(45deg, #8338ec, #b794f6);
+            color: #fff;
+        }
+        
+        .candy.type-3 {
+            background: linear-gradient(45deg, #3a86ff, #63b3ed);
+            color: #fff;
+        }
+        
+        .candy.type-4 {
+            background: linear-gradient(45deg, #06ffa5, #68d391);
+            color: #000;
+        }
+        
+        .candy.type-5 {
+            background: linear-gradient(45deg, #ffbe0b, #fbd38d);
+            color: #000;
+        }
+        
+        .candy.type-6 {
+            background: linear-gradient(45deg, #fb5607, #fc8181);
+            color: #fff;
+        }
+        
+        .candy:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+        }
+        
+        .combo-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 20px #ff006e;
+            animation: comboShow 2s ease-out forwards;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        @keyframes comboShow {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.5); 
             }
-            
-            .tabs {
-                flex-direction: column;
+            50% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1.2); 
             }
-            
-            .form-row {
-                flex-direction: column;
+            100% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(1.5); 
             }
-            
-            .export-buttons {
-                flex-direction: column;
+        }
+        
+        .btn-reset {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .btn-reset:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .explosion {
+            position: absolute;
+            pointer-events: none;
+            animation: explode 0.8s ease-out forwards;
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3) rotate(360deg);
+                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="floating-elements"></div>
+    <div class="background-particles"></div>
     
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">CVGen ✨</a>
-                <div class="nav-links">
-                    <a href="#home">Accueil</a>
-                    <a href="#features">Fonctionnalités</a>
-                    <a href="#app">Créer</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <section id="home" class="hero">
-        <div class="container">
-            <h1>Créer ton CV de dingue ! 🚀</h1>
-            <p>Des CV et lettres de motivation stylés avec l'aide de l'IA - Pour la génération qui ne fait pas dans la médiocrité</p>
-            <a href="#app" class="cta-button">Commencer maintenant</a>
-        </div>
-    </section>
-
-    <section id="features" class="features">
-        <div class="container">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3>IA Assistée</h3>
-                    <p>Bloqué ? Pas de panique ! Notre IA génère automatiquement du contenu stylé pour toi</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>Templates 2025</h3>
-                    <p>Des modèles ultra-modernes qui sortent du lot - Fini les CV ringards de tes parents</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Export Facile</h3>
-                    <p>PDF, Word, ou partage direct - Ton CV prêt en 2 clics pour postuler partout</p>
-                </div>
+    <div class="game-container">
+        <h1 class="title">🍭 CANDY MADNESS 🍭</h1>
+        
+        <div class="score-board">
+            <div class="score-item">
+                <div>SCORE</div>
+                <div id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div>COMBO</div>
+                <div id="combo">0</div>
+            </div>
+            <div class="score-item">
+                <div>LEVEL</div>
+                <div id="level">1</div>
             </div>
         </div>
-    </section>
-
-    <section id="app" class="container">
-        <div class="app-container">
-            <div class="tabs">
-                <button class="tab active" onclick="showTab('cv')">📄 Créer CV</button>
-                <button class="tab" onclick="showTab('lettre')">💌 Lettre de Motivation</button>
-                <button class="tab" onclick="showTab('preview')">👀 Aperçu</button>
-            </div>
-
-            <div id="cv-tab" class="tab-content active">
-                <h2>Créer ton CV de fou 🔥</h2>
-                
-                <div class="form-group">
-                    <h3>Informations Personnelles</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="nom">Nom</label>
-                            <input type="text" id="nom" placeholder="Ton nom">
-                        </div>
-                        <div class="form-group">
-                            <label for="prenom">Prénom</label>
-                            <input type="text" id="prenom" placeholder="Ton prénom">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="ton.email@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="telephone">Téléphone</label>
-                            <input type="tel" id="telephone" placeholder="06 12 34 56 78">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="adresse">Adresse</label>
-                            <input type="text" id="adresse" placeholder="Ton adresse">
-                        </div>
-                        <button class="ai-button" onclick="generatePersonalInfo()">🤖 Générer par IA</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="titre">Titre/Poste recherché</label>
-                            <input type="text" id="titre" placeholder="Ex: Développeur Full Stack Junior">
-                        </div>
-                        <button class="ai-button" onclick="generateTitle()">🤖 Générer par IA</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="accroche">Accroche/Résumé</label>
-                            <textarea id="accroche" rows="3" placeholder="Parle-nous de toi en quelques mots..."></textarea>
-                        </div>
-                        <button class="ai-button" onclick="generateAccroche()">🤖 Générer par IA</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <h3>Expériences Professionnelles</h3>
-                    <div id="experiences">
-                        <div class="experience-section">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Poste</label>
-                                    <input type="text" placeholder="Ex: Stagiaire Marketing">
-                                </div>
-                                <div class="form-group">
-                                    <label>Entreprise</label>
-                                    <input type="text" placeholder="Ex: TechCorp">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Période</label>
-                                    <input type="text" placeholder="Ex: Jan 2024 - Mars 2024">
-                                </div>
-                                <button class="ai-button" onclick="generateExperience(this)">🤖 Générer par IA</button>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea rows="3" placeholder="Décris ce que tu as fait..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-button" onclick="addExperience()">+ Ajouter une expérience</button>
-                </div>
-
-                <div class="form-group">
-                    <h3>Formation</h3>
-                    <div id="formations">
-                        <div class="education-section">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Diplôme</label>
-                                    <input type="text" placeholder="Ex: Master en Informatique">
-                                </div>
-                                <div class="form-group">
-                                    <label>École/Université</label>
-                                    <input type="text" placeholder="Ex: Université Paris-Saclay">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Année</label>
-                                    <input type="text" placeholder="Ex: 2023-2025">
-                                </div>
-                                <button class="ai-button" onclick="generateEducation(this)">🤖 Générer par IA</button>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-button" onclick="addEducation()">+ Ajouter une formation</button>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="competences">Compétences</label>
-                            <textarea id="competences" rows="3" placeholder="Liste tes compétences (séparées par des virgules)"></textarea>
-                        </div>
-                        <button class="ai-button" onclick="generateSkills()">🤖 Générer par IA</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <h3>Choisir un template</h3>
-                    <div class="templates">
-                        <div class="template selected" onclick="selectTemplate(this)" data-template="modern">
-                            <h4>Modern Pro</h4>
-                            <p>Clean & Minimal</p>
-                        </div>
-                        <div class="template" onclick="selectTemplate(this)" data-template="creative">
-                            <h4>Creative</h4>
-                            <p>Bold & Colorful</p>
-                        </div>
-                        <div class="template" onclick="selectTemplate(this)" data-template="tech">
-                            <h4>Tech Savvy</h4>
-                            <p>Futuristic</p>
-                        </div>
-                        <div class="template" onclick="selectTemplate(this)" data-template="elegant">
-                            <h4>Elegant</h4>
-                            <p>Sophisticated</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="lettre-tab" class="tab-content">
-                <h2>Lettre de Motivation 💌</h2>
-                
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="entreprise">Entreprise</label>
-                            <input type="text" id="entreprise" placeholder="Nom de l'entreprise">
-                        </div>
-                        <div class="form-group">
-                            <label for="poste">Poste</label>
-                            <input type="text" id="poste" placeholder="Poste visé">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="lettre-contenu">Contenu de la lettre</label>
-                            <textarea id="lettre-contenu" rows="10" placeholder="Écris ta lettre de motivation ou laisse l'IA faire le travail..."></textarea>
-                        </div>
-                        <button class="ai-button" onclick="generateLettre()">🤖 Générer par IA</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="tone">Ton de la lettre</label>
-                    <select id="tone">
-                        <option value="professionnel">Professionnel</option>
-                        <option value="decontracte">Décontracté</option>
-                        <option value="enthousiaste">Enthousiaste</option>
-                        <option value="creatif">Créatif</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="preview-tab" class="tab-content">
-                <h2>Aperçu de ton CV 👀</h2>
-                <div class="preview-section">
-                    <div id="cv-preview">
-                        <h3>Ton CV apparaîtra ici</h3>
-                        <p>Remplis les informations dans l'onglet "Créer CV" pour voir l'aperçu</p>
-                    </div>
-                </div>
-                
-                <div class="export-buttons">
-                    <button class="export-btn" onclick="exportPDF()">📄 Exporter en PDF</button>
-                    <button class="export-btn" onclick="exportWord()">📝 Exporter en Word</button>
-                    <button class="export-btn" onclick="shareCV()">🔗 Partager</button>
-                    <button class="export-btn" onclick="saveTemplate()">💾 Sauvegarder</button>
-                </div>
-            </div>
-        </div>
-    </section>
+        
+        <div class="game-board" id="gameBoard"></div>
+        
+        <button class="btn-reset" onclick="resetGame()">🔄 RESET GAME</button>
+    </div>
 
     <script>
-        // Variables globales
-        let cvData = {
-            personal: {},
-            experiences: [],
-            education: [],
-            skills: [],
-            template: 'modern'
-        };
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            createFloatingElements();
-            updatePreview();
-        });
-
-        // Gestion des onglets
-        function showTab(tabName) {
-            // Masquer tous les onglets
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            const tabButtons = document.querySelectorAll('.tab');
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Afficher l'onglet sélectionné
-            document.getElementById(tabName + '-tab').classList.add('active');
-            event.target.classList.add('active');
-            
-            if (tabName === 'preview') {
-                updatePreview();
+        const BOARD_SIZE = 8;
+        const CANDY_TYPES = 6;
+        const CANDIES = ['🍬', '🍭', '🍫', '🧁', '🍩', '🍪'];
+        
+        let board = [];
+        let score = 0;
+        let combo = 0;
+        let level = 1;
+        let selectedCandy = null;
+        let isAnimating = false;
+        
+        function createParticles() {
+            const particleContainer = document.querySelector('.background-particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particleContainer.appendChild(particle);
             }
         }
-
-        // Fonctions de génération par IA
-        function generatePersonalInfo() {
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = '🤖 Génération...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                // Simulation de génération IA
-                const sampleData = {
-                    adresse: "123 Rue de la Tech, 75001 Paris",
-                    linkedin: "linkedin.com/in/ton-profil",
-                    portfolio: "ton-portfolio.dev"
-                };
-                
-                if (!document.getElementById('adresse').value) {
-                    document.getElementById('adresse').value = sampleData.adresse;
+        
+        function initBoard() {
+            board = [];
+            for (let row = 0; row < BOARD_SIZE; row++) {
+                board[row] = [];
+                for (let col = 0; col < BOARD_SIZE; col++) {
+                    board[row][col] = Math.floor(Math.random() * CANDY_TYPES) + 1;
                 }
-                
-                button.textContent = originalText;
-                button.disabled = false;
-                showNotification('Informations générées par IA ! ✨');
-            }, 2000);
-        }
-
-        function generateTitle() {
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = '🤖 Génération...';
-            button.disabled = true;
+            }
             
-            setTimeout(() => {
-                const titles = [
-                    "Développeur Full Stack Passionné",
-                    "Designer UX/UI Créatif",
-                    "Marketing Digital Specialist",
-                    "Data Scientist Junior",
-                    "Chef de Projet Digital",
-                    "Consultant en Stratégie Digitale"
-                ];
-                
-                const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-                document.getElementById('titre').value = randomTitle;
-                
-                button.textContent = originalText;
-                button.disabled = false;
-                showNotification('Titre généré par IA ! 🎯');
-            }, 1500);
-        }
-
-        function generateAccroche() {
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = '🤖 Génération...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                const accroches = [
-                    "Passionné par les nouvelles technologies et l'innovation, je suis constamment à la recherche de défis stimulants pour développer mes compétences et contribuer au succès de projets ambitieux.",
-                    "Créatif et rigoureux, j'aime transformer les idées en réalités concrètes. Mon approche collaborative et ma soif d'apprendre me permettent de m'adapter rapidement à tous les environnements.",
-                    "Motivé par l'excellence et l'innovation, je mets ma créativité et mon expertise technique au service de projets qui ont du sens et créent de la valeur.",
-                    "Avec une approche orientée résultats et une passion pour l'apprentissage continu, je suis prêt à relever tous les défis et à contribuer activement à la croissance de votre équipe."
-                ];
-                
-                const randomAccroche = accroches[Math.floor(Math.random() * accroches.length)];
-                document.getElementById('accroche').value = randomAccroche;
-                
-                button.textContent = originalText;
-                button.disabled = false;
-                showNotification('Accroche générée par IA ! 🎨');
-            }, 2000);
-        }
-
-        function generateExperience(button) {
-            const originalText = button.textContent;
-            button.textContent = '🤖 Génération...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                const section = button.closest('.experience-section');
-                const textarea = section.querySelector('textarea');
-                
-                const experiences = [
-                    "• Développement d'applications web responsives\n• Collaboration avec l'équipe de design pour l'optimisation UX\n• Participation à l'amélioration des processus de développement\n• Veille technologique et formation continue",
-                    "• Gestion de projets digitaux de A à Z\n• Coordination d'équipes multidisciplinaires\n• Analyse des performances et optimisation continue\n• Présentation des résultats aux stakeholders",
-                    "• Création de contenu engageant pour les réseaux sociaux\n• Analyse des données et reporting des KPIs\n• Mise en place de campagnes marketing innovantes\n• Collaboration étroite avec les équipes commerciales"
-                ];
-                
-                const randomExp = experiences[Math.floor(Math.random() * experiences.length)];
-                textarea.value = randomExp;
-                
-                button.textContent = originalText;
-                button.disabled = false;
-                showNotification('Expérience générée par IA ! 💼');
-            }, 1800);
-        }
-
-        function generateEducation(button) {
-            const originalText = button.textContent;
-            button.textContent = '🤖 Génération...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                const section = button.closest('.education-section');
-                const inputs = section.querySelectorAll('input');
-                
-                const educations = [
-                    { diplome: "Master en Informatique", ecole: "Université Paris-Saclay", annee: "2023-2025" },
-                    { diplome: "Bachelor en Design Digital", ecole: "École Supérieure d'Art", annee: "2020-2023" },
-                    { diplome: "BTS Services Informatiques", ecole: "Lycée Technique", annee: "2018-2020" }
-                ];
-                
-                const randomEd = educations[Math.floor(Math.random() * educations.length)];
-                
-                if (!inputs[0].value) inputs[0].value = randomEd.diplome;
-                if (!inputs[1].value) inputs[1].value = randomEd.ecole;
-                if (!inputs[2].value) inputs[2].value = randomEd.annee;
-                
-                button.textContent = originalText;
-                button.disabled = false;
-                showNotification('Formation générée par IA ! 🎓');
-            }, 1500);
-        }
-
-        function generateSkills() {
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = '🤖 Génération...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                const skills = [
-                    "JavaScript, React, Node.js, HTML/CSS, Git, Agile Methodologies",
-                    "Photoshop, Illustrator, Figma, UX Design, UI Design, Prototyping",
-                    "Marketing Digital, SEO, Google Analytics, Social Media, Content Creation",
-                    "Python, Data Analysis, Machine Learning, SQL, Tableau, Statistics"
-                ];
-                
-                const randomSkills = skills[Math.floor(Math.random() * skills.length)];
-                document.getElementById('competences').value = randomSkills;
-                
-                button.textContent = originalText;
-                button.disabled = false;
-                showNotification('Compétences générées par IA ! 🛠️');
-            }, 1200);
-        }
-
-        function generateLettre() {
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = '🤖 Génération...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                const entreprise = document.getElementById('entreprise').value || "votre entreprise";
-                const poste = document.getElementById('poste').value || "ce poste";
-                const tone = document.getElementById('tone').value;
-                
-                let lettre = "";
-                
-                if (tone === "professionnel") {
-                    lettre = `Madame, Monsieur,\n\n`;
-                    lettre += `Actuellement à la recherche d'un nouveau défi professionnel, je me permets de vous soumettre ma candidature pour le poste de ${poste} au sein de ${entreprise}.\n\n`;
-                    lettre += `Fort(e) de mon expérience et de mes compétences en [domaine], je suis convaincu(e) de pouvoir apporter une réelle valeur ajoutée à votre équipe. [Développer un point spécifique en lien avec l'offre].\n\n`;
-                    lettre += `Mon parcours et ma motivation font de moi un(e) candidat(e) sérieux(se) pour ce poste. Je serais ravi(e) d'échanger avec vous lors d'un entretien pour vous exposer plus en détail mes motivations et ce que je pourrais apporter à ${entreprise}.\n\n`;
-                    lettre += `Dans l'attente de votre retour, je reste à votre disposition pour toute information complémentaire.\n\n`;
-                    lettre += `Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\n`;
-                    lettre += `[Votre nom]`;
-                } else if (tone === "decontracte") {
-                    lettre = `Bonjour,\n\n`;
-                    lettre += `Je me permets de vous écrire pour postuler au poste de ${poste} chez ${entreprise}. Ce qui m'a tout de suite attiré(e) dans votre annonce, c'est [mentionner un aspect spécifique].\n\n`;
-                    lettre += `Je pense que mon profil pourrait vraiment correspondre à ce que vous recherchez. [Expliquer pourquoi en 2-3 points].\n\n`;
-                    lettre += `Si vous pensez aussi qu'on pourrait bien travailler ensemble, je serais super content(e) d'en discuter autour d'un café (virtuel ou réel) !\n\n`;
-                    lettre += `À très vite j'espère,\n\n`;
-                    lettre += `[Votre prénom]`;
-                } else if (tone === "enthousiaste") {
-                    lettre = `Bonjour l'équipe ${entreprise} ! 🚀\n\n`;
-                    lettre += `Quelle excitation de découvrir votre offre pour ${poste} ! C'est EXACTEMENT le type de challenge que je recherche. [Expliquer pourquoi en termes passionnés].\n\n`;
-                    lettre += `Je suis à 1000% motivé(e) à l'idée de rejoindre votre aventure et d'apporter toute mon énergie et mes compétences en [domaine]. [Donner un exemple concret].\n\n`;
-                    lettre += `On en parle ? Je suis disponible dès maintenant pour un premier échange !\n\n`;
-                    lettre += `Avec enthousiasme,\n\n`;
-                    lettre += `[Votre prénom]`;
-                } else {
-                    lettre = `Cher futur employeur,\n\n`;
-                    lettre += `Imaginez un(e) professionnel(le) qui [décrire votre valeur ajoutée de manière métaphorique]. C'est moi, candidat(e) pour ${poste} chez ${entreprise}.\n\n`;
-                    lettre += `Mon approche unique combine [compétence 1] et [compétence 2] pour créer [résultat tangible]. Par exemple, [raconter une anecdote professionnelle marquante].\n\n`;
-                    lettre += `Travailler ensemble serait l'occasion de [décrire une vision créative du poste]. Qu'en pensez-vous ?\n\n`;
-                    lettre += `Créativement vôtre,\n\n`;
-                    lettre += `[Votre nom]`;
+            // Éviter les matches initiaux
+            for (let row = 0; row < BOARD_SIZE; row++) {
+                for (let col = 0; col < BOARD_SIZE; col++) {
+                    while (hasMatch(row, col)) {
+                        board[row][col] = Math.floor(Math.random() * CANDY_TYPES) + 1;
+                    }
                 }
-                
-                document.getElementById('lettre-contenu').value = lettre;
-                
-                button.textContent = originalText;
-                button.disabled = false;
-                showNotification('Lettre générée par IA ! ✉️');
-            }, 2500);
-        }
-
-        // Gestion des sections dynamiques
-        function addExperience() {
-            const experiencesContainer = document.getElementById('experiences');
-            const newExperience = document.createElement('div');
-            newExperience.className = 'experience-section';
-            newExperience.innerHTML = `
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Poste</label>
-                        <input type="text" placeholder="Ex: Stagiaire Marketing">
-                    </div>
-                    <div class="form-group">
-                        <label>Entreprise</label>
-                        <input type="text" placeholder="Ex: TechCorp">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Période</label>
-                        <input type="text" placeholder="Ex: Jan 2024 - Mars 2024">
-                    </div>
-                    <button class="ai-button" onclick="generateExperience(this)">🤖 Générer par IA</button>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea rows="3" placeholder="Décris ce que tu as fait..."></textarea>
-                </div>
-                <button class="add-button" onclick="removeSection(this)" style="background: #ff6b6b;">- Supprimer</button>
-            `;
-            experiencesContainer.appendChild(newExperience);
-            showNotification('Nouvelle expérience ajoutée ! 💼');
-        }
-
-        function addEducation() {
-            const educationContainer = document.getElementById('formations');
-            const newEducation = document.createElement('div');
-            newEducation.className = 'education-section';
-            newEducation.innerHTML = `
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Diplôme</label>
-                        <input type="text" placeholder="Ex: Master en Informatique">
-                    </div>
-                    <div class="form-group">
-                        <label>École/Université</label>
-                        <input type="text" placeholder="Ex: Université Paris-Saclay">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Année</label>
-                        <input type="text" placeholder="Ex: 2023-2025">
-                    </div>
-                    <button class="ai-button" onclick="generateEducation(this)">🤖 Générer par IA</button>
-                </div>
-                <button class="add-button" onclick="removeSection(this)" style="background: #ff6b6b;">- Supprimer</button>
-            `;
-            educationContainer.appendChild(newEducation);
-            showNotification('Nouvelle formation ajoutée ! 🎓');
-        }
-
-        function removeSection(button) {
-            const section = button.closest('.experience-section, .education-section');
-            section.remove();
-            showNotification('Section supprimée ! 🗑️');
-        }
-
-        // Gestion des templates
-        function selectTemplate(element) {
-            const templates = document.querySelectorAll('.template');
-            templates.forEach(t => t.classList.remove('selected'));
-            element.classList.add('selected');
-            
-            cvData.template = element.dataset.template;
-            showNotification(`Template ${element.querySelector('h4').textContent} sélectionné ! 🎨`);
-            updatePreview();
-        }
-
-        // Mise à jour de l'aperçu
-        function updatePreview() {
-            // Récupérer toutes les données du formulaire
-            cvData.personal = {
-                nom: document.getElementById('nom').value,
-                prenom: document.getElementById('prenom').value,
-                email: document.getElementById('email').value,
-                telephone: document.getElementById('telephone').value,
-                adresse: document.getElementById('adresse').value,
-                titre: document.getElementById('titre').value,
-                accroche: document.getElementById('accroche').value
-            };
-            
-            cvData.experiences = [];
-            document.querySelectorAll('.experience-section').forEach(exp => {
-                const inputs = exp.querySelectorAll('input');
-                const textarea = exp.querySelector('textarea');
-                cvData.experiences.push({
-                    poste: inputs[0].value,
-                    entreprise: inputs[1].value,
-                    periode: inputs[2].value,
-                    description: textarea.value
-                });
-            });
-            
-            cvData.education = [];
-            document.querySelectorAll('.education-section').forEach(edu => {
-                const inputs = edu.querySelectorAll('input');
-                cvData.education.push({
-                    diplome: inputs[0].value,
-                    ecole: inputs[1].value,
-                    annee: inputs[2].value
-                });
-            });
-            
-            cvData.skills = document.getElementById('competences').value.split(',').map(s => s.trim());
-            
-            // Générer le HTML de l'aperçu
-            let previewHTML = generatePreviewHTML();
-            document.getElementById('cv-preview').innerHTML = previewHTML;
-        }
-
-        function generatePreviewHTML() {
-            // Vérifier si les champs obligatoires sont remplis
-            if (!cvData.personal.nom || !cvData.personal.prenom || !cvData.personal.titre) {
-                return `<h3>Ton CV apparaîtra ici</h3><p>Remplis les informations dans l'onglet "Créer CV" pour voir l'aperçu</p>`;
             }
-            
-            let html = '';
-            
-            // En-tête du CV selon le template choisi
-            if (cvData.template === 'modern') {
-                html += `
-                    <div class="cv-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
-                        <h1 style="margin: 0; font-size: 2.5rem;">${cvData.personal.prenom} ${cvData.personal.nom}</h1>
-                        <h2 style="margin: 0.5rem 0 0 0; font-weight: 400; font-size: 1.5rem;">${cvData.personal.titre}</h2>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
-                        <div class="cv-left" style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px;">
-                            <div class="contact-section" style="margin-bottom: 2rem;">
-                                <h3 style="border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; color: #333;">Contact</h3>
-                                <p>📧 ${cvData.personal.email || 'Non renseigné'}</p>
-                                <p>📱 ${cvData.personal.telephone || 'Non renseigné'}</p>
-                                <p>🏠 ${cvData.personal.adresse || 'Non renseigné'}</p>
-                            </div>
-                `;
-            } else if (cvData.template === 'creative') {
-                html += `
-                    <div class="cv-header" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4); color: white; padding: 2rem; border-radius: 10px 10px 0 0; margin-bottom: 0;">
-                        <h1 style="margin: 0; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px;">${cvData.personal.prenom} ${cvData.personal.nom}</h1>
-                        <h2 style="margin: 0.5rem 0 0 0; font-weight: 600; font-size: 1.5rem;">${cvData.personal.titre}</h2>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0; border: 3px solid #333;">
-                        <div class="cv-left" style="background: #333; color: white; padding: 1.5rem;">
-                            <div class="contact-section" style="margin-bottom: 2rem;">
-                                <h3 style="border-bottom: 2px solid #4ecdc4; padding-bottom: 0.5rem; color: white;">Contact</h3>
-                                <p>📧 ${cvData.personal.email || 'Non renseigné'}</p>
-                                <p>📱 ${cvData.personal.telephone || 'Non renseigné'}</p>
-                                <p>🏠 ${cvData.personal.adresse || 'Non renseigné'}</p>
-                            </div>
-                `;
-            } else if (cvData.template === 'tech') {
-                html += `
-                    <div style="background: #222; color: #00ffaa; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; font-family: 'Courier New', monospace; border-left: 5px solid #00ffaa;">
-                        <h1 style="margin: 0; font-size: 2.5rem;">${cvData.personal.prenom} <span style="color: white;">${cvData.personal.nom}</span></h1>
-                        <h2 style="margin: 0.5rem 0 0 0; font-weight: 400; font-size: 1.5rem; color: white;">${cvData.personal.titre}</h2>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
-                        <div class="cv-left" style="background: #f0f0f0; padding: 1.5rem; border-radius: 10px; border-left: 5px solid #00ffaa;">
-                            <div class="contact-section" style="margin-bottom: 2rem;">
-                                <h3 style="border-bottom: 2px solid #00ffaa; padding-bottom: 0.5rem; color: #333;">> CONTACT</h3>
-                                <p>📧 ${cvData.personal.email || 'Non renseigné'}</p>
-                                <p>📱 ${cvData.personal.telephone || 'Non renseigné'}</p>
-                                <p>🏠 ${cvData.personal.adresse || 'Non renseigné'}</p>
-                            </div>
-                `;
-            } else { // Template elegant
-                html += `
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <h1 style="margin: 0; font-size: 2.5rem; font-weight: 300; letter-spacing: 2px;">${cvData.personal.prenom} <span style="font-weight: 600;">${cvData.personal.nom}</span></h1>
-                        <h2 style="margin: 0.5rem 0 0 0; font-weight: 400; font-size: 1.2rem; color: #666; text-transform: uppercase; letter-spacing: 3px;">${cvData.personal.titre}</h2>
-                        <div style="height: 1px; background: #ddd; width: 100px; margin: 1rem auto;"></div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
-                        <div class="cv-left" style="padding: 1.5rem;">
-                            <div class="contact-section" style="margin-bottom: 2rem;">
-                                <h3 style="border-bottom: 1px solid #ddd; padding-bottom: 0.5rem; color: #333; font-weight: 400; letter-spacing: 1px;">CONTACT</h3>
-                                <p style="margin: 0.5rem 0;">📧 ${cvData.personal.email || 'Non renseigné'}</p>
-                                <p style="margin: 0.5rem 0;">📱 ${cvData.personal.telephone || 'Non renseigné'}</p>
-                                <p style="margin: 0.5rem 0;">🏠 ${cvData.personal.adresse || 'Non renseigné'}</p>
-                            </div>
-                `;
-            }
-            
-            // Section Compétences
-            if (cvData.skills.length > 0 && cvData.skills[0] !== '') {
-                html += `
-                    <div class="skills-section" style="margin-bottom: 2rem;">
-                        <h3 style="${cvData.template === 'creative' ? 'border-bottom: 2px solid #4ecdc4; color: white;' : cvData.template === 'tech' ? 'border-bottom: 2px solid #00ffaa; color: #333;' : 'border-bottom: 2px solid #667eea; color: #333;'} padding-bottom: 0.5rem;">${cvData.template === 'tech' ? '> COMPÉTENCES' : 'Compétences'}</h3>
-                        <ul style="padding-left: 1.2rem; ${cvData.template === 'creative' ? 'color: white;' : ''}">
-                `;
-                
-                cvData.skills.forEach(skill => {
-                    if (skill) {
-                        html += `<li style="margin-bottom: 0.3rem;">${skill}</li>`;
-                    }
-                });
-                
-                html += `
-                        </ul>
-                    </div>
-                `;
-            }
-            
-            html += `</div><div class="cv-right" style="padding: 0 1.5rem;">`;
-            
-            // Section Profil
-            if (cvData.personal.accroche) {
-                html += `
-                    <div class="profile-section" style="margin-bottom: 2rem;">
-                        <h3 style="${cvData.template === 'creative' ? 'border-bottom: 2px solid #4ecdc4; color: #333;' : cvData.template === 'tech' ? 'border-bottom: 2px solid #00ffaa; color: #333;' : 'border-bottom: 2px solid #667eea; color: #333;'} padding-bottom: 0.5rem;">${cvData.template === 'tech' ? '> PROFIL' : 'Profil'}</h3>
-                        <p style="line-height: 1.6;">${cvData.personal.accroche}</p>
-                    </div>
-                `;
-            }
-            
-            // Section Expérience Professionnelle
-            if (cvData.experiences.length > 0) {
-                html += `
-                    <div class="experience-section" style="margin-bottom: 2rem;">
-                        <h3 style="${cvData.template === 'creative' ? 'border-bottom: 2px solid #4ecdc4; color: #333;' : cvData.template === 'tech' ? 'border-bottom: 2px solid #00ffaa; color: #333;' : 'border-bottom: 2px solid #667eea; color: #333;'} padding-bottom: 0.5rem;">${cvData.template === 'tech' ? '> EXPÉRIENCE' : 'Expérience Professionnelle'}</h3>
-                `;
-                
-                cvData.experiences.forEach(exp => {
-                    if (exp.poste || exp.entreprise) {
-                        html += `
-                            <div style="margin-bottom: 1.5rem;">
-                                <h4 style="margin: 0 0 0.3rem 0; font-size: 1.1rem;">${exp.poste || ''} ${exp.poste && exp.entreprise ? '·' : ''} ${exp.entreprise || ''}</h4>
-                                <p style="margin: 0 0 0.5rem 0; color: #666; font-style: italic;">${exp.periode || ''}</p>
-                                <p style="margin: 0; line-height: 1.6; white-space: pre-line;">${exp.description || ''}</p>
-                            </div>
-                        `;
-                    }
-                });
-                
-                html += `</div>`;
-            }
-            
-            // Section Formation
-            if (cvData.education.length > 0) {
-                html += `
-                    <div class="education-section">
-                        <h3 style="${cvData.template === 'creative' ? 'border-bottom: 2px solid #4ecdc4; color: #333;' : cvData.template === 'tech' ? 'border-bottom: 2px solid #00ffaa; color: #333;' : 'border-bottom: 2px solid #667eea; color: #333;'} padding-bottom: 0.5rem;">${cvData.template === 'tech' ? '> FORMATION' : 'Formation'}</h3>
-                `;
-                
-                cvData.education.forEach(edu => {
-                    if (edu.diplome || edu.ecole) {
-                        html += `
-                            <div style="margin-bottom: 1rem;">
-                                <h4 style="margin: 0 0 0.3rem 0; font-size: 1.1rem;">${edu.diplome || ''} ${edu.diplome && edu.ecole ? '·' : ''} ${edu.ecole || ''}</h4>
-                                <p style="margin: 0; color: #666;">${edu.annee || ''}</p>
-                            </div>
-                        `;
-                    }
-                });
-                
-                html += `</div>`;
-            }
-            
-            html += `</div></div>`;
-            
-            return html;
         }
-
-        // Fonctions d'export
-        function exportPDF() {
-            showNotification('Export PDF en cours... (simulation) 📄');
-            // En réalité, on utiliserait une librairie comme jsPDF ou html2pdf.js
-            setTimeout(() => {
-                showNotification('CV exporté en PDF avec succès ! ✅');
-            }, 2000);
+        
+        function hasMatch(row, col) {
+            const candy = board[row][col];
+            
+            // Vérifier horizontalement
+            let count = 1;
+            for (let i = col - 1; i >= 0 && board[row][i] === candy; i--) count++;
+            for (let i = col + 1; i < BOARD_SIZE && board[row][i] === candy; i++) count++;
+            if (count >= 3) return true;
+            
+            // Vérifier verticalement
+            count = 1;
+            for (let i = row - 1; i >= 0 && board[i][col] === candy; i--) count++;
+            for (let i = row + 1; i < BOARD_SIZE && board[i][col] === candy; i++) count++;
+            if (count >= 3) return true;
+            
+            return false;
         }
-
-        function exportWord() {
-            showNotification('Export Word en cours... (simulation) 📝');
-            // En réalité, on utiliserait une librairie comme docx ou html-docx-js
-            setTimeout(() => {
-                showNotification('CV exporté en Word avec succès ! ✅');
-            }, 2000);
+        
+        function renderBoard() {
+            const gameBoard = document.getElementById('gameBoard');
+            gameBoard.innerHTML = '';
+            
+            for (let row = 0; row < BOARD_SIZE; row++) {
+                for (let col = 0; col < BOARD_SIZE; col++) {
+                    const candy = document.createElement('div');
+                    candy.classList.add('candy', `type-${board[row][col]}`);
+                    candy.textContent = CANDIES[board[row][col] - 1];
+                    candy.dataset.row = row;
+                    candy.dataset.col = col;
+                    candy.addEventListener('click', handleCandyClick);
+                    gameBoard.appendChild(candy);
+                }
+            }
         }
-
-        function shareCV() {
-            if (navigator.share) {
-                navigator.share({
-                    title: `CV de ${cvData.personal.prenom} ${cvData.personal.nom}`,
-                    text: `Découvrez mon CV créé avec CVGen`,
-                    url: window.location.href
-                }).then(() => {
-                    showNotification('CV partagé avec succès ! ✅');
-                }).catch(err => {
-                    showNotification('Partage annulé ❌');
-                });
+        
+        function handleCandyClick(e) {
+            if (isAnimating) return;
+            
+            const candy = e.target;
+            const row = parseInt(candy.dataset.row);
+            const col = parseInt(candy.dataset.col);
+            
+            if (!selectedCandy) {
+                selectedCandy = { row, col, element: candy };
+                candy.classList.add('selected');
             } else {
-                showNotification('Fonction de partage non disponible sur ce navigateur ❌');
+                if (selectedCandy.row === row && selectedCandy.col === col) {
+                    selectedCandy.element.classList.remove('selected');
+                    selectedCandy = null;
+                    return;
+                }
+                
+                if (isAdjacent(selectedCandy.row, selectedCandy.col, row, col)) {
+                    swapCandies(selectedCandy.row, selectedCandy.col, row, col);
+                    selectedCandy.element.classList.remove('selected');
+                    selectedCandy = null;
+                } else {
+                    selectedCandy.element.classList.remove('selected');
+                    selectedCandy = { row, col, element: candy };
+                    candy.classList.add('selected');
+                }
             }
         }
-
-        function saveTemplate() {
-            localStorage.setItem('cvData', JSON.stringify(cvData));
-            showNotification('CV sauvegardé avec succès ! 💾');
+        
+        function isAdjacent(row1, col1, row2, col2) {
+            return Math.abs(row1 - row2) + Math.abs(col1 - col2) === 1;
         }
-
-        // Fonctions utilitaires
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.position = 'fixed';
-            notification.style.bottom = '20px';
-            notification.style.right = '20px';
-            notification.style.backgroundColor = '#333';
-            notification.style.color = 'white';
-            notification.style.padding = '1rem 2rem';
-            notification.style.borderRadius = '10px';
-            notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
-            notification.style.zIndex = '1000';
-            notification.style.animation = 'fadeIn 0.3s ease-in-out';
-            notification.textContent = message;
+        
+        function swapCandies(row1, col1, row2, col2) {
+            const temp = board[row1][col1];
+            board[row1][col1] = board[row2][col2];
+            board[row2][col2] = temp;
             
+            if (findMatches().length > 0) {
+                renderBoard();
+                setTimeout(() => processMatches(), 300);
+            } else {
+                // Swap back si pas de match
+                board[row1][col1] = board[row2][col2];
+                board[row2][col2] = temp;
+            }
+        }
+        
+        function findMatches() {
+            const matches = [];
+            
+            // Matches horizontaux
+            for (let row = 0; row < BOARD_SIZE; row++) {
+                let count = 1;
+                for (let col = 1; col < BOARD_SIZE; col++) {
+                    if (board[row][col] === board[row][col - 1]) {
+                        count++;
+                    } else {
+                        if (count >= 3) {
+                            for (let i = col - count; i < col; i++) {
+                                matches.push({ row, col: i });
+                            }
+                        }
+                        count = 1;
+                    }
+                }
+                if (count >= 3) {
+                    for (let i = BOARD_SIZE - count; i < BOARD_SIZE; i++) {
+                        matches.push({ row, col: i });
+                    }
+                }
+            }
+            
+            // Matches verticaux
+            for (let col = 0; col < BOARD_SIZE; col++) {
+                let count = 1;
+                for (let row = 1; row < BOARD_SIZE; row++) {
+                    if (board[row][col] === board[row - 1][col]) {
+                        count++;
+                    } else {
+                        if (count >= 3) {
+                            for (let i = row - count; i < row; i++) {
+                                matches.push({ row: i, col });
+                            }
+                        }
+                        count = 1;
+                    }
+                }
+                if (count >= 3) {
+                    for (let i = BOARD_SIZE - count; i < BOARD_SIZE; i++) {
+                        matches.push({ row: i, col });
+                    }
+                }
+            }
+            
+            return matches;
+        }
+        
+        function processMatches() {
+            isAnimating = true;
+            const matches = findMatches();
+            
+            if (matches.length === 0) {
+                isAnimating = false;
+                return;
+            }
+            
+            // Animation des matches
+            matches.forEach(match => {
+                const candy = document.querySelector(`[data-row="${match.row}"][data-col="${match.col}"]`);
+                if (candy) {
+                    candy.classList.add('matching');
+                    createExplosion(candy);
+                }
+            });
+            
+            // Calculer le score
+            const baseScore = matches.length * 10;
+            const comboBonus = combo * 5;
+            const totalScore = baseScore + comboBonus;
+            
+            score += totalScore;
+            combo++;
+            
+            if (combo > 1) {
+                showComboNotification(`COMBO x${combo}!`);
+            }
+            
+            updateUI();
+            
+            setTimeout(() => {
+                // Supprimer les matches
+                matches.forEach(match => {
+                    board[match.row][match.col] = 0;
+                });
+                
+                dropCandies();
+                fillEmpty();
+                renderBoard();
+                
+                setTimeout(() => {
+                    processMatches();
+                }, 300);
+            }, 500);
+        }
+        
+        function createExplosion(candy) {
+            const explosion = document.createElement('div');
+            explosion.classList.add('explosion');
+            explosion.textContent = '💥';
+            explosion.style.left = candy.offsetLeft + 'px';
+            explosion.style.top = candy.offsetTop + 'px';
+            explosion.style.fontSize = '2em';
+            document.querySelector('.game-container').appendChild(explosion);
+            
+            setTimeout(() => {
+                explosion.remove();
+            }, 800);
+        }
+        
+        function dropCandies() {
+            for (let col = 0; col < BOARD_SIZE; col++) {
+                let writeIndex = BOARD_SIZE - 1;
+                for (let row = BOARD_SIZE - 1; row >= 0; row--) {
+                    if (board[row][col] !== 0) {
+                        board[writeIndex][col] = board[row][col];
+                        if (writeIndex !== row) {
+                            board[row][col] = 0;
+                        }
+                        writeIndex--;
+                    }
+                }
+            }
+        }
+        
+        function fillEmpty() {
+            for (let row = 0; row < BOARD_SIZE; row++) {
+                for (let col = 0; col < BOARD_SIZE; col++) {
+                    if (board[row][col] === 0) {
+                        board[row][col] = Math.floor(Math.random() * CANDY_TYPES) + 1;
+                    }
+                }
+            }
+        }
+        
+        function showComboNotification(text) {
+            const notification = document.createElement('div');
+            notification.classList.add('combo-notification');
+            notification.textContent = text;
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                notification.style.animation = 'fadeOut 0.3s ease-in-out';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
+                notification.remove();
+            }, 2000);
         }
-
-        function createFloatingElements() {
-            const container = document.querySelector('.floating-elements');
-            const colors = ['rgba(255, 107, 107, 0.3)', 'rgba(78, 205, 196, 0.3)', 'rgba(102, 126, 234, 0.3)', 'rgba(118, 75, 162, 0.3)'];
-            
-            for (let i = 0; i < 15; i++) {
-                const element = document.createElement('div');
-                element.className = 'floating-element';
-                
-                // Position aléatoire
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                
-                // Taille aléatoire
-                const size = Math.random() * 20 + 10;
-                
-                // Couleur aléatoire
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Animation delay aléatoire
-                const delay = Math.random() * 5;
-                
-                element.style.left = `${posX}%`;
-                element.style.top = `${posY}%`;
-                element.style.width = `${size}px`;
-                element.style.height = `${size}px`;
-                element.style.background = color;
-                element.style.animationDelay = `${delay}s`;
-                
-                container.appendChild(element);
-            }
+        
+        function updateUI() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('combo').textContent = combo;
+            document.getElementById('level').textContent = Math.floor(score / 1000) + 1;
         }
+        
+        function resetGame() {
+            score = 0;
+            combo = 0;
+            level = 1;
+            selectedCandy = null;
+            isAnimating = false;
+            updateUI();
+            initBoard();
+            renderBoard();
+        }
+        
+        // Initialisation
+        createParticles();
+        initBoard();
+        renderBoard();
+        updateUI();
     </script>
 </body>
 </html>
