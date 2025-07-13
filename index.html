@@ -293,6 +293,111 @@
         let selectedCandy = null;
         let isAnimating = false;
         
+        // Système audio avec Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Générateur de sons épiques
+        function playSound(type, frequency = 440, duration = 0.2) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            switch(type) {
+                case 'select':
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+                    break;
+                    
+                case 'match':
+                    oscillator.type = 'square';
+                    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(frequency * 2, audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+                    duration = 0.3;
+                    break;
+                    
+                case 'combo':
+                    oscillator.type = 'sawtooth';
+                    oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.2);
+                    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.4);
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+                    duration = 0.5;
+                    break;
+                    
+                case 'drop':
+                    oscillator.type = 'triangle';
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.15);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+                    duration = 0.15;
+                    break;
+                    
+                case 'explosion':
+                    // Bruit blanc pour l'explosion
+                    const bufferSize = audioContext.sampleRate * 0.3;
+                    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2);
+                    }
+                    
+                    const noiseSource = audioContext.createBufferSource();
+                    noiseSource.buffer = buffer;
+                    
+                    const filter = audioContext.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(3000, audioContext.currentTime);
+                    filter.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.3);
+                    
+                    noiseSource.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+                    
+                    noiseSource.start(audioContext.currentTime);
+                    noiseSource.stop(audioContext.currentTime + 0.3);
+                    return;
+            }
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+        
+        // Musique de fond ambiante
+        function playBackgroundMusic() {
+            const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25]; // Do majeur
+            
+            function playNote() {
+                const note = notes[Math.floor(Math.random() * notes.length)];
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(note, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.03, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 2);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 2);
+                
+                setTimeout(playNote, Math.random() * 3000 + 1000);
+            }
+            
+            playNote();
+        }
+        
         function createParticles() {
             const particleContainer = document.querySelector('.background-particles');
             for (let i = 0; i < 50; i++) {
@@ -365,6 +470,9 @@
             const candy = e.target;
             const row = parseInt(candy.dataset.row);
             const col = parseInt(candy.dataset.col);
+            
+            // Son de sélection
+            playSound('select');
             
             if (!selectedCandy) {
                 selectedCandy = { row, col, element: candy };
@@ -463,8 +571,13 @@
             
             if (matches.length === 0) {
                 isAnimating = false;
+                combo = 0; // Reset combo si pas de match
                 return;
             }
+            
+            // Sons d'explosion pour les matches
+            playSound('explosion');
+            setTimeout(() => playSound('match', 400 + (matches.length * 50)), 100);
             
             // Animation des matches
             matches.forEach(match => {
@@ -485,6 +598,7 @@
             
             if (combo > 1) {
                 showComboNotification(`COMBO x${combo}!`);
+                playSound('combo');
             }
             
             updateUI();
@@ -498,6 +612,9 @@
                 dropCandies();
                 fillEmpty();
                 renderBoard();
+                
+                // Son de chute
+                playSound('drop');
                 
                 setTimeout(() => {
                     processMatches();
@@ -570,7 +687,21 @@
             updateUI();
             initBoard();
             renderBoard();
+            
+            // Son de reset
+            playSound('select');
+            setTimeout(() => playSound('drop'), 200);
         }
+        
+        // Initialisation avec activation audio
+        document.addEventListener('click', function initAudio() {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            // Démarrer la musique de fond
+            playBackgroundMusic();
+            document.removeEventListener('click', initAudio);
+        });
         
         // Initialisation
         createParticles();
